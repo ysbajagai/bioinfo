@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>{{ page.title }}</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 800px; margin: 2rem auto; padding: 1rem; line-height: 1.6; }
+    nav a { margin-right: 15px; text-decoration: none; color: #0366d6; }
+    nav { margin-bottom: 20px; }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="/">Home</a>
+    <a href="/hpc">HPC</a>
+    <a href="/linux">Linux</a>
+    <a href="/tools">Tools</a>
+  </nav>
+  <hr/>
+  {{ content }}
+</body>
+</html>
