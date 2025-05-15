@@ -12,6 +12,9 @@ This tutorial provides a complete R-based workflow for analyzing 16S rRNA sequen
 ## 1️⃣ User-defined Settings
 
 The script begins by defining working directories, filenames, and project-specific variables.
+
+---
+
 <div style="position: relative; margin-bottom: 1em;">
   <pre style="background:#f6f8fa; padding:1em; border-radius:6px; overflow:auto;">
 <code id="r-setup" style="font-family: monospace;">
