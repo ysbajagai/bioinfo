@@ -11,12 +11,65 @@ This tutorial provides a complete R-based workflow for analyzing 16S rRNA sequen
 
 ## 1️⃣ User-defined Settings
 
-The script begins by defining working directories, filenames, and project-specific variables such as:
-- `WORKDIR`: the directory for your project
-- `FEATURE_TABLE_QZA`, `TAXONOMY_QZA`, `TREE_QZA`: your Qiime2 `.qza` files
-- `RAREFACTION_DEPTH`: depth for rarefaction (you must update this manually)
-- `TREATMENT_VAR`: name of your grouping variable (e.g. "Treatment")
+The script begins by defining working directories, filenames, and project-specific variables.
+<div style="position: relative; margin-bottom: 1em;">
+  <pre style="background:#f6f8fa; padding:1em; border-radius:6px; overflow:auto;">
+<code 
+# Seed for reproducibility
+MY_SEED <- 2345
 
+# Working directory
+WORKDIR <- "/home/sharmay1/data/16S/L22-UNE/R"
+
+# Excel file containing sample metadata
+METADATA_EXCEL <- "sample_metadata.xlsx"
+METADATA_SHEET <- "Sheet1"  # The sheet name where metadata is stored
+
+# Names of Qiime2 artifacts to import
+FEATURE_TABLE_QZA <- "table-2.qza"
+TAXONOMY_QZA      <- "taxonomy.qza"
+TREE_QZA          <- "tree.qza"
+
+# Optional .RData output file name
+PSEQ_RDATA <- "XXX_pseq.RData"
+
+# Directories and filenames for microeco step
+MECO_DIR     <- "./meco"
+
+# Rarefaction depth for microeco
+
+RAREFACTION_DEPTH <-    #you need to come back here later
+
+# For alpha/beta diversity, bar plots, etc.
+TREATMENT_VAR <- "Treatment"   # The name of the variable in your sample_data
+
+# File name to save final workspace & session info
+FINAL_WORKSPACE <- "XXXX_final_workspace.RData"
+SESSION_INFO    <- "XXXX_sessionInfo.txt"
+
+</code>
+  </pre>
+  <button onclick="copyCode('bash-example')" style="
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: #0366d6;
+    color: white;
+    border: none;
+    padding: 4px 8px;
+    border-radius: 5px;
+    font-size: 0.8em;
+    cursor: pointer;">📋 Copy</button>
+</div>
+
+<script>
+function copyCode(id) {
+  const code = document.getElementById(id).innerText;
+  navigator.clipboard.writeText(code).then(() => {
+    alert("✅ Code copied to clipboard!");
+  });
+}
+</script>
 ---
 
 ## 2️⃣ Install and Load Required Packages
