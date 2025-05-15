@@ -13,6 +13,7 @@ Explore foundational tutorials in:
 - 🔍 [Quality Control (QC)](./qc)
 - 🧬 [16S rRNA Analysis](./16s)
 - 🌎 [Metagenomics](./metagenomics)
-- 📊 [RNA-seq Analysis](./rna-seq)
+- 📈 [RNA-seq Analysis](./rna-seq)
+- 📊 [Phenotypic Data Analysis](./phenotype)
 
 Enjoy hands-on lessons in high-performance computing, data wrangling, and modern bioinformatics pipelines.
