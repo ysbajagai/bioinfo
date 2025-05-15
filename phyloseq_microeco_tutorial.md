@@ -22,7 +22,7 @@ The script begins by defining working directories, filenames, and project-specif
 MY_SEED &lt;- 2345
 
 # Working directory
-WORKDIR &lt;- "/home/sharmay1/data/16S/L22-UNE/R"
+WORKDIR &lt;- "XXXXXXX"
 
 # Excel file containing sample metadata
 METADATA_EXCEL &lt;- "sample_metadata.xlsx"
@@ -73,13 +73,89 @@ function copyCode(id) {
 </script>
 
 ---
-
 ## 2️⃣ Install and Load Required Packages
 
 The script installs (if necessary) and loads:
 - CRAN packages: `ggplot2`, `dplyr`, `readxl`, `paletteer`, `microeco`
 - Bioconductor: `phyloseq`
 - GitHub: `qiime2R`
+
+<div style="position: relative; margin-bottom: 1em;">
+  <pre style="background:#f6f8fa; padding:1em; border-radius:6px; overflow:auto;">
+<code id="r-packages" style="font-family: monospace;">
+cran_packages &lt;- c(
+  "readxl",
+  "dplyr",
+  "tibble",
+  "ggplot2",
+  "RColorBrewer",
+  "paletteer",
+  "file2meco",
+  "microeco",
+  "GUniFrac",    # for UniFrac distances
+  "vegan"        # often needed for ordination or diversity calculations
+)
+
+missing_cran &lt;- cran_packages[!(cran_packages %in% installed.packages()[,"Package"])]
+if(length(missing_cran)) install.packages(missing_cran)
+
+# B) Bioconductor packages (phyloseq, etc.)
+if (!requireNamespace("BiocManager", quietly = TRUE))
+  install.packages("BiocManager")
+
+if (!"phyloseq" %in% installed.packages()[,"Package"]) {
+  BiocManager::install("phyloseq")
+}
+
+# C) GitHub package for qiime2R
+if (!"qiime2R" %in% installed.packages()[,"Package"]) {
+  if (!requireNamespace("devtools", quietly = TRUE))
+    install.packages("devtools")
+  devtools::install_github("jbisanz/qiime2R")
+}
+
+# D) (Optional) microbiome package for taxa_filter()
+# if (!"microbiome" %in% installed.packages()[,"Package"]) {
+#   install.packages("microbiome")
+# }
+
+# Now load libraries
+library(readxl)
+library(tibble)
+library(dplyr)
+library(qiime2R)
+library(phyloseq)
+library(ggplot2)
+library(file2meco)
+library(microeco)
+library(RColorBrewer)
+library(paletteer)
+library(GUniFrac)
+# library(vegan)       # If you need direct vegan functions
+# library(microbiome)  # If you need taxa_filter()
+</code>
+  </pre>
+  <button onclick="copyCode('r-packages')" style="
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: #0366d6;
+    color: white;
+    border: none;
+    padding: 4px 8px;
+    border-radius: 5px;
+    font-size: 0.8em;
+    cursor: pointer;">📋 Copy</button>
+</div>
+
+<script>
+function copyCode(id) {
+  const code = document.getElementById(id).innerText;
+  navigator.clipboard.writeText(code).then(() => {
+    alert("✅ Code copied to clipboard!");
+  });
+}
+</script>
 
 ---
 
