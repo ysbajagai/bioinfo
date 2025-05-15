@@ -7,6 +7,6 @@ title: Welcome
 
 Explore:
 
-- [Unix Bash for High Performance Computing (HPC)](./hpc)
+- [Unix Bash for High Performance Computing (HPC)](./Unix)
 - [Linux for Bioinformatics](./linux)
 - [Tools & Pipelines](./tools)
