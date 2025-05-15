@@ -3,7 +3,7 @@ layout: default
 title: Welcome
 ---
 
-# 👋 Welcome to the Bioinformatics Learning Hub by Yadav Bajagai
+# 👋 Welcome to the Bioinformatics Learning Hub
 
 Explore:
 
