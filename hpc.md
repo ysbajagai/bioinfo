@@ -2,9 +2,9 @@
 layout: default
 title: 🖥️ Unix Bash for High Performance Computing (HPC)
 ---
-# 🖥️ Unix Bash for High Performance Computing (HPC)
+# Unix Bash for High Performance Computing (HPC)
 
-## What is Unix/Linux?
+## 🖥️ What is Unix/Linux?
 
 Unix is a powerful multiuser operating system. Linux is a Unix-like system commonly used in HPC. You interact with it using a command-line interface (CLI) or shell (bash).
 Welcome to the beginner’s guide to Unix and the command line interface for HPC users.
@@ -139,7 +139,7 @@ sudo chown user:group file.txt
 6. Use `find` to locate all `.txt` files in your home directory
 
 ---
-## Bash Scripting Basics
+## 🛠️ Bash Scripting Basics
 A script is a file of commands executed line by line.
 Example: my_script.sh
 
@@ -154,7 +154,7 @@ Run it with:
 bash my_script.sh
 ```
 ---
-## Writing & Submitting Jobs to a Scheduler (SLURM)
+## 📝 Writing & Submitting Jobs to a Scheduler (SLURM)
 ---
 ### Basic SLURM Script: job.slurm
 
@@ -178,7 +178,7 @@ squeue -u $USER       # Check job status
 scancel <jobid>       # Cancel job
 ```
 ---
-## Monitoring Jobs
+## 🔍 Monitoring Jobs
 
 ```bah
 top                  # Real-time CPU usage
@@ -187,7 +187,7 @@ squeue -u $USER      # Job queue
 sacct -j <jobid>     # Job accounting info
 ```
 ---
-## Best Practices for Bash in HPC
+## ✅ Best Practices for Bash in HPC
 
 | Practice              | Example                        |
 | --------------------- | ------------------------------ |
@@ -200,7 +200,7 @@ sacct -j <jobid>     # Job accounting info
 
 ---
 
-## Quick Reference: Bash Cheat Sheet
+## 🚀 Quick Reference: Bash Cheat Sheet
 
 | Command            | Description            |
 | ------------------ | ---------------------- |
