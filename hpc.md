@@ -187,23 +187,6 @@ squeue -u $USER      # Job queue
 sacct -j <jobid>     # Job accounting info
 ```
 ---
-## Parallel Computing Basics
-
-MPI (Message Passing Interface)
-Runs across nodes (distributed memory).
-
-Hello World in MPI (C example)
-
-SLURM script for MPI
-
-```bash
-#!/bin/bash
-#SBATCH --ntasks=4
-#SBATCH --time=00:15:00
-module load mpi
-mpirun ./hello
-```
----
 ## Best Practices for Bash in HPC
 
 | Practice              | Example                        |
@@ -214,7 +197,9 @@ mpirun ./hello
 | Use comments          | `# This part runs the model`   |
 | Use variables         | `FILENAME=data.txt`            |
 | Automate with loops   | `for f in *.txt; do ...; done` |
+
 ---
+
 ## Quick Reference: Bash Cheat Sheet
 
 | Command            | Description            |
