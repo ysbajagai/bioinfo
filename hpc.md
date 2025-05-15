@@ -2,15 +2,21 @@
 layout: default
 title: 🖥️ Unix Bash for High Performance Computing (HPC)
 ---
+# Unix Bash for High Performance Computing (HPC)
 
-# What is Unix/Linux?
+## What is Unix/Linux?
 
 Unix is a powerful multiuser operating system. Linux is a Unix-like system commonly used in HPC. You interact with it using a command-line interface (CLI) or shell (bash).
 Welcome to the beginner’s guide to Unix and the command line interface for HPC users.
 
-# Topics Covered
+## Topics Covered
 
 - Navigating the Linux file system
+- Working with Files and Directories
+- Viewing and Editing Files
+- Searching and Finding Files
+- Permissions and Ownership
+- Useful Commands
 - Basic shell scripting
 - Submitting jobs to SLURM
 - Running parallel jobs with MPI
