@@ -10,12 +10,39 @@
   </style>
 </head>
 <body>
-  <nav>
-    <a href="/">Home</a>
-    <a href="/hpc">HPC</a>
-    <a href="/linux">Linux</a>
-    <a href="/tools">Tools</a>
-  </nav>
+  <style>
+nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #ccc;
+  padding-bottom: 5px;
+}
+nav a {
+  padding: 8px 16px;
+  background: #f7f7f7;
+  text-decoration: none;
+  border: 1px solid #ccc;
+  border-bottom: none;
+  border-radius: 5px 5px 0 0;
+  color: #0366d6;
+  font-weight: bold;
+}
+nav a:hover {
+  background-color: #e2e2e2;
+}
+</style>
+
+<nav>
+  <a href="/">🏠 Home</a>
+  <a href="/unix">💻 Unix</a>
+  <a href="/tools">🧪 Tools</a>
+  <a href="/qc">🔍 QC</a>
+  <a href="/16s">🧬 16S rRNA</a>
+  <a href="/metagenomics">🌎 Metagenomics</a>
+  <a href="/rna-seq">📊 RNA-seq</a>
+</nav>
   <hr/>
   {{ content }}
 </body>
