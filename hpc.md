@@ -2,7 +2,7 @@
 layout: default
 title: 🖥️ Unix Bash for High Performance Computing (HPC)
 ---
-# Unix Bash for High Performance Computing (HPC)
+# 🖥️ Unix Bash for High Performance Computing (HPC)
 
 ## What is Unix/Linux?
 
@@ -151,3 +151,91 @@ sudo chown user:group file.txt
 6. Use `find` to locate all `.txt` files in your home directory
 
 ---
+## Bash Scripting Basics
+A script is a file of commands executed line by line.
+Example: my_script.sh
+
+```bash
+#!/bin/bash
+echo "Starting job..."
+cd /home/user/myproject
+python analysis.py
+```
+Run it with:
+```bash
+bash my_script.sh
+```
+## Writing & Submitting Jobs to a Scheduler (SLURM)
+
+Basic SLURM Script: job.slurm
+
+```bash
+#!/bin/bash
+#SBATCH --job-name=test_job
+#SBATCH --output=out.txt
+#SBATCH --time=00:10:00
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=2
+
+module load python
+python3 analysis.py
+```
+Submit and manage jobs
+
+```bash
+sbatch job.slurm      # Submit job
+squeue -u $USER       # Check job status
+scancel <jobid>       # Cancel job
+```
+## Monitoring Jobs
+
+```bah
+top                  # Real-time CPU usage
+htop                 # Enhanced top (if available)
+squeue -u $USER      # Job queue
+sacct -j <jobid>     # Job accounting info
+```
+## Parallel Computing Basics
+
+MPI (Message Passing Interface)
+Runs across nodes (distributed memory).
+
+Hello World in MPI (C example)
+
+SLURM script for MPI
+
+```bash
+#!/bin/bash
+#SBATCH --ntasks=4
+#SBATCH --time=00:15:00
+module load mpi
+mpirun ./hello
+```
+## Best Practices for Bash in HPC
+
+| Practice              | Example                        |
+| --------------------- | ------------------------------ |
+| Start with a shebang  | `#!/bin/bash`                  |
+| Enable safe scripting | `set -euo pipefail`            |
+| Use logging           | `command >> log.txt 2>&1`      |
+| Use comments          | `# This part runs the model`   |
+| Use variables         | `FILENAME=data.txt`            |
+| Automate with loops   | `for f in *.txt; do ...; done` |
+
+## Quick Reference: Bash Cheat Sheet
+
+| Command            | Description            |
+| ------------------ | ---------------------- |
+| `pwd`              | Show current directory |
+| `cd dir/`          | Change directory       |
+| `ls -l`            | List files             |
+| `mkdir dir`        | Create folder          |
+| `rm file`          | Delete file            |
+| `cp a b`           | Copy a to b            |
+| `mv a b`           | Rename/move a to b     |
+| `bash script.sh`   | Run script             |
+| `sbatch job.slurm` | Submit job             |
+| `squeue -u $USER`  | View jobs              |
+
+
+
