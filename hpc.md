@@ -1,6 +1,6 @@
 ---
 layout: default
-title: 🖥️ Unix Bash for High Performance Computing (HPC)
+title: Unix Bash for High Performance Computing (HPC)
 ---
 # Unix Bash for High Performance Computing (HPC)
 
