@@ -153,9 +153,10 @@ Run it with:
 ```bash
 bash my_script.sh
 ```
+---
 ## Writing & Submitting Jobs to a Scheduler (SLURM)
-
-Basic SLURM Script: job.slurm
+---
+### Basic SLURM Script: job.slurm
 
 ```bash
 #!/bin/bash
@@ -168,13 +169,15 @@ Basic SLURM Script: job.slurm
 module load python
 python3 analysis.py
 ```
-Submit and manage jobs
+---
+### Submit and manage jobs
 
 ```bash
 sbatch job.slurm      # Submit job
 squeue -u $USER       # Check job status
 scancel <jobid>       # Cancel job
 ```
+---
 ## Monitoring Jobs
 
 ```bah
@@ -183,6 +186,7 @@ htop                 # Enhanced top (if available)
 squeue -u $USER      # Job queue
 sacct -j <jobid>     # Job accounting info
 ```
+---
 ## Parallel Computing Basics
 
 MPI (Message Passing Interface)
@@ -199,6 +203,7 @@ SLURM script for MPI
 module load mpi
 mpirun ./hello
 ```
+---
 ## Best Practices for Bash in HPC
 
 | Practice              | Example                        |
@@ -209,7 +214,7 @@ mpirun ./hello
 | Use comments          | `# This part runs the model`   |
 | Use variables         | `FILENAME=data.txt`            |
 | Automate with loops   | `for f in *.txt; do ...; done` |
-
+---
 ## Quick Reference: Bash Cheat Sheet
 
 | Command            | Description            |
