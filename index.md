@@ -5,6 +5,8 @@ title: Bioinformatics Learning Hub
 
 # 👋 Welcome to the Bioinformatics Learning Hub
 
+by Dr Yadav Bajagai
+
 Explore foundational tutorials in:
 
 - 🧠 [HPC with Bash](./hpc)
