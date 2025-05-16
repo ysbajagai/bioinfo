@@ -62,12 +62,10 @@ function copyCode(id) {
 </script>
 ---
 ## 2️⃣ Install and Load Required Packages
-
 The script installs (if necessary) and loads:
 - CRAN packages: `ggplot2`, `dplyr`, `readxl`, `paletteer`, `microeco`
 - Bioconductor: `phyloseq`
 - GitHub: `qiime2R`
-
 ### A) cran_packages
 <div style="position: relative; margin-bottom: 1em;">
   <pre style="background:#f6f8fa; padding:1em; border-radius:6px; overflow:auto;">
@@ -84,10 +82,8 @@ cran_packages &lt;- c(
   "GUniFrac",    # for UniFrac distances
   "vegan"        # often needed for ordination or diversity calculations
 )
-
 missing_cran &lt;- cran_packages[!(cran_packages %in% installed.packages()[,"Package"])]
 if(length(missing_cran)) install.packages(missing_cran)
-
 ### B) Bioconductor packages (phyloseq, etc.)
 if (!requireNamespace("BiocManager", quietly = TRUE))
   install.packages("BiocManager")
@@ -95,19 +91,16 @@ if (!requireNamespace("BiocManager", quietly = TRUE))
 if (!"phyloseq" %in% installed.packages()[,"Package"]) {
   BiocManager::install("phyloseq")
 }
-
 ### C) GitHub package for qiime2R
 if (!"qiime2R" %in% installed.packages()[,"Package"]) {
   if (!requireNamespace("devtools", quietly = TRUE))
     install.packages("devtools")
   devtools::install_github("jbisanz/qiime2R")
 }
-
 ### D) (Optional) microbiome package for taxa_filter()
 if (!"microbiome" %in% installed.packages()[,"Package"]) {
 install.packages("microbiome")
 }
-
 ### Now load libraries
 library(readxl)
 library(tibble)
@@ -145,9 +138,7 @@ function copyCode(id) {
   });
 }
 </script>
-
 ---
-
 ## 3️⃣ Import Metadata and Create a Phyloseq Object
 
 You’ll read your metadata from Excel using `readxl`, and convert Qiime2 artifacts using `qza_to_phyloseq()`. Then merge all into a `phyloseq` object.
