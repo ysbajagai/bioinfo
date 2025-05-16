@@ -1,4 +1,4 @@
-![image](https://github.com/user-attachments/assets/ef50fcb3-1495-4895-81f0-5b5a23baff43)---
+---
 layout: default
 title: 16S Phyloseq & Microeco Analysis Tutorial
 ---
