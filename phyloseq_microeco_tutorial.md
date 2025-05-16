@@ -14,37 +14,28 @@ This tutorial provides a complete R-based workflow for analyzing 16S rRNA sequen
 The script begins by defining working directories, filenames, and project-specific variables.
 
 ---
-
 <div style="position: relative; margin-bottom: 1em;">
   <pre style="background:#f6f8fa; padding:1em; border-radius:6px; overflow:auto;">
 <code id="r-setup" style="font-family: monospace;">
 # Seed for reproducibility
 MY_SEED &lt;- 2345
-
 ### Working directory
 WORKDIR &lt;- "XXXXXXX"
-
 ### Excel file containing sample metadata
 METADATA_EXCEL &lt;- "sample_metadata.xlsx"
 METADATA_SHEET &lt;- "Sheet1"  # The sheet name where metadata is stored
-
 ### Names of Qiime2 artifacts to import
 FEATURE_TABLE_QZA &lt;- "table-2.qza"
 TAXONOMY_QZA      &lt;- "taxonomy.qza"
 TREE_QZA          &lt;- "tree.qza"
-
 ### Optional .RData output file name
 PSEQ_RDATA &lt;- "XXX_pseq.RData"
-
 ### Directories and filenames for microeco step
 MECO_DIR &lt;- "./meco"
-
 ### Rarefaction depth for microeco
 RAREFACTION_DEPTH &lt;-   # you need to come back here later
-
 ### For alpha/beta diversity, bar plots, etc.
 TREATMENT_VAR &lt;- "Treatment"   # The name of the variable in your sample_data
-
 ### File name to save final workspace & session info
 FINAL_WORKSPACE &lt;- "XXXX_final_workspace.RData"
 SESSION_INFO    &lt;- "XXXX_sessionInfo.txt"
@@ -71,7 +62,6 @@ function copyCode(id) {
   });
 }
 </script>
-
 ---
 ## 2️⃣ Install and Load Required Packages
 
