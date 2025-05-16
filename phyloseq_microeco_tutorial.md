@@ -67,6 +67,7 @@ The script installs (if necessary) and loads:
 - CRAN packages: `ggplot2`, `dplyr`, `readxl`, `paletteer`, `microeco`
 - Bioconductor: `phyloseq`
 - GitHub: `qiime2R`
+  
 ### A) cran_packages
 <div style="position: relative; margin-bottom: 1em;">
   <pre style="background:#f6f8fa; padding:1em; border-radius:6px; overflow:auto;">
