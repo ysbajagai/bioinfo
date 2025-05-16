@@ -3,7 +3,7 @@ layout: default
 title: 16S Phyloseq & Microeco Analysis Tutorial
 ---
 
-# 🧬 16S rRNA Data Analysis in R using Phyloseq and Microeco
+# 16S rRNA Sequencing Data Analysis in R using Phyloseq and Microeco
 
 This tutorial provides a complete R-based workflow for analyzing 16S rRNA sequencing data using `qiime2R`, `phyloseq`, and `microeco` packages.
 
@@ -72,7 +72,7 @@ The script installs (if necessary) and loads:
 <div style="position: relative; margin-bottom: 1em;">
   <pre style="background:#f6f8fa; padding:1em; border-radius:6px; overflow:auto;">
 <code id="r-packages" style="font-family: monospace;">
-### A) cran_packages
+###A) cran_packages
 cran_packages &lt;- c(
   "readxl",
   "dplyr",
@@ -87,18 +87,18 @@ cran_packages &lt;- c(
 )
 missing_cran &lt;- cran_packages[!(cran_packages %in% installed.packages()[,"Package"])]
 if(length(missing_cran)) install.packages(missing_cran)
-  ### B) Bioconductor packages (phyloseq, etc.)
+  ###B) Bioconductor packages (phyloseq, etc.)
 if (!requireNamespace("BiocManager", quietly = TRUE))
   install.packages("BiocManager")
 
 if (!"phyloseq" %in% installed.packages()[,"Package"]) {
-  BiocManager::install("phyloseq")
-} ### C) GitHub package for qiime2R
+  BiocManager::install("phyloseq")}
+ ###C) GitHub package for qiime2R
 if (!"qiime2R" %in% installed.packages()[,"Package"]) {
   if (!requireNamespace("devtools", quietly = TRUE))
     install.packages("devtools")
-  devtools::install_github("jbisanz/qiime2R")
-} ### D) (Optional) microbiome package for taxa_filter()
+  devtools::install_github("jbisanz/qiime2R")}
+###D) (Optional) microbiome package for taxa_filter()
 if (!"microbiome" %in% installed.packages()[,"Package"]) {
 install.packages("microbiome")
 } ### Now load libraries
@@ -170,20 +170,57 @@ function copyCode(id) {
 }
 </script>
 
-
-
-
-
 ## 3️⃣ Import Metadata and Create a Phyloseq Object
 
 You’ll read your metadata from Excel using `readxl`, and convert Qiime2 artifacts using `qza_to_phyloseq()`. Then merge all into a `phyloseq` object.
 
-```r
-samples_df <- read_excel(METADATA_EXCEL, sheet = METADATA_SHEET)
-otu_mat <- qza_to_phyloseq(features = FEATURE_TABLE_QZA)
-pseq <- phyloseq(otu_mat, tax_mat, samples, tree)
-```
 
+<div style="position: relative; margin-bottom: 1em;">
+  <pre style="background:#f6f8fa; padding:1em; border-radius:6px; overflow:auto;">
+<code id="r-phyloseq-obj" style="font-family: monospace;">
+# 4.1 Read in sample metadata from an Excel file
+samples_df &lt;- read_excel(METADATA_EXCEL, sheet = METADATA_SHEET)
+
+# 4.2 Convert the "sample" column to row names
+samples_df &lt;- samples_df %&gt;%
+  tibble::column_to_rownames("sample")
+
+# 4.3 Convert Qiime2 artifacts into phyloseq-compatible objects
+otu_mat &lt;- qza_to_phyloseq(features = FEATURE_TABLE_QZA)
+tax_mat &lt;- qza_to_phyloseq(taxonomy = TAXONOMY_QZA)
+tree    &lt;- qza_to_phyloseq(tree = TREE_QZA)
+
+# 4.4 Create a sample_data object from the metadata
+samples &lt;- sample_data(samples_df, errorIfNULL = FALSE)
+
+# 4.5 Merge all components into a single phyloseq object
+pseq &lt;- phyloseq(otu_mat, tax_mat, samples, tree)
+
+# Print info about the new phyloseq object
+pseq
+</code>
+  </pre>
+  <button onclick="copyCode('r-phyloseq-obj')" style="
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: #0366d6;
+    color: white;
+    border: none;
+    padding: 4px 8px;
+    border-radius: 5px;
+    font-size: 0.8em;
+    cursor: pointer;">📋 Copy</button>
+</div>
+
+<script>
+function copyCode(id) {
+  const code = document.getElementById(id).innerText;
+  navigator.clipboard.writeText(code).then(() => {
+    alert("✅ Code copied to clipboard!");
+  });
+}
+</script>
 ---
 
 ## 4️⃣ Filter Taxa
