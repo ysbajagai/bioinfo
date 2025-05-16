@@ -87,24 +87,21 @@ cran_packages &lt;- c(
 )
 missing_cran &lt;- cran_packages[!(cran_packages %in% installed.packages()[,"Package"])]
 if(length(missing_cran)) install.packages(missing_cran)
-### B) Bioconductor packages (phyloseq, etc.)
+  ### B) Bioconductor packages (phyloseq, etc.)
 if (!requireNamespace("BiocManager", quietly = TRUE))
   install.packages("BiocManager")
 
 if (!"phyloseq" %in% installed.packages()[,"Package"]) {
   BiocManager::install("phyloseq")
-}
-### C) GitHub package for qiime2R
+} ### C) GitHub package for qiime2R
 if (!"qiime2R" %in% installed.packages()[,"Package"]) {
   if (!requireNamespace("devtools", quietly = TRUE))
     install.packages("devtools")
   devtools::install_github("jbisanz/qiime2R")
-}
-### D) (Optional) microbiome package for taxa_filter()
+} ### D) (Optional) microbiome package for taxa_filter()
 if (!"microbiome" %in% installed.packages()[,"Package"]) {
 install.packages("microbiome")
-}
-### Now load libraries
+} ### Now load libraries
 library(readxl)
 library(tibble)
 library(dplyr)
