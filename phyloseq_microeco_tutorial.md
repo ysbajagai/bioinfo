@@ -170,7 +170,7 @@ function copyCode(id) {
 }
 </script>
 
-## 3️⃣ Import Metadata and Create a Phyloseq Object
+## 4️⃣ Import Metadata and Create a Phyloseq Object
 
 You’ll read your metadata from Excel using `readxl`, and convert Qiime2 artifacts using `qza_to_phyloseq()`. Then merge all into a `phyloseq` object.
 
