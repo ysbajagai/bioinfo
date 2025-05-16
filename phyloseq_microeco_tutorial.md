@@ -21,31 +21,31 @@ The script begins by defining working directories, filenames, and project-specif
 # Seed for reproducibility
 MY_SEED &lt;- 2345
 
-# Working directory
+### Working directory
 WORKDIR &lt;- "XXXXXXX"
 
-# Excel file containing sample metadata
+### Excel file containing sample metadata
 METADATA_EXCEL &lt;- "sample_metadata.xlsx"
 METADATA_SHEET &lt;- "Sheet1"  # The sheet name where metadata is stored
 
-# Names of Qiime2 artifacts to import
+### Names of Qiime2 artifacts to import
 FEATURE_TABLE_QZA &lt;- "table-2.qza"
 TAXONOMY_QZA      &lt;- "taxonomy.qza"
 TREE_QZA          &lt;- "tree.qza"
 
-# Optional .RData output file name
+### Optional .RData output file name
 PSEQ_RDATA &lt;- "XXX_pseq.RData"
 
-# Directories and filenames for microeco step
+### Directories and filenames for microeco step
 MECO_DIR &lt;- "./meco"
 
-# Rarefaction depth for microeco
+### Rarefaction depth for microeco
 RAREFACTION_DEPTH &lt;-   # you need to come back here later
 
-# For alpha/beta diversity, bar plots, etc.
+### For alpha/beta diversity, bar plots, etc.
 TREATMENT_VAR &lt;- "Treatment"   # The name of the variable in your sample_data
 
-# File name to save final workspace & session info
+### File name to save final workspace & session info
 FINAL_WORKSPACE &lt;- "XXXX_final_workspace.RData"
 SESSION_INFO    &lt;- "XXXX_sessionInfo.txt"
 </code>
@@ -80,6 +80,7 @@ The script installs (if necessary) and loads:
 - Bioconductor: `phyloseq`
 - GitHub: `qiime2R`
 
+### A) cran_packages
 <div style="position: relative; margin-bottom: 1em;">
   <pre style="background:#f6f8fa; padding:1em; border-radius:6px; overflow:auto;">
 <code id="r-packages" style="font-family: monospace;">
@@ -99,7 +100,7 @@ cran_packages &lt;- c(
 missing_cran &lt;- cran_packages[!(cran_packages %in% installed.packages()[,"Package"])]
 if(length(missing_cran)) install.packages(missing_cran)
 
-# B) Bioconductor packages (phyloseq, etc.)
+### B) Bioconductor packages (phyloseq, etc.)
 if (!requireNamespace("BiocManager", quietly = TRUE))
   install.packages("BiocManager")
 
@@ -107,19 +108,19 @@ if (!"phyloseq" %in% installed.packages()[,"Package"]) {
   BiocManager::install("phyloseq")
 }
 
-# C) GitHub package for qiime2R
+### C) GitHub package for qiime2R
 if (!"qiime2R" %in% installed.packages()[,"Package"]) {
   if (!requireNamespace("devtools", quietly = TRUE))
     install.packages("devtools")
   devtools::install_github("jbisanz/qiime2R")
 }
 
-# D) (Optional) microbiome package for taxa_filter()
-# if (!"microbiome" %in% installed.packages()[,"Package"]) {
-#   install.packages("microbiome")
-# }
+### D) (Optional) microbiome package for taxa_filter()
+if (!"microbiome" %in% installed.packages()[,"Package"]) {
+install.packages("microbiome")
+}
 
-# Now load libraries
+### Now load libraries
 library(readxl)
 library(tibble)
 library(dplyr)
@@ -131,8 +132,8 @@ library(microeco)
 library(RColorBrewer)
 library(paletteer)
 library(GUniFrac)
-# library(vegan)       # If you need direct vegan functions
-# library(microbiome)  # If you need taxa_filter()
+library(vegan)       
+library(microbiome)  
 </code>
   </pre>
   <button onclick="copyCode('r-packages')" style="
