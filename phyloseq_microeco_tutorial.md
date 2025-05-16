@@ -316,7 +316,7 @@ function copyCode(id) {
 
 ---
 
-## 6️⃣ Microeco Analysis
+## 6️⃣ Import phyloseq object to Microeco and prepare for analysis
 
 - Convert `phyloseq` → `microeco`
 - Rarefy to `RAREFACTION_DEPTH`
@@ -326,8 +326,415 @@ function copyCode(id) {
   - Barplots by group or sample
 
 Plots saved as both `.pdf` and `.png`.
+<div style="position: relative; margin-bottom: 1em;">
+  <pre style="background:#f6f8fa; padding:1em; border-radius:6px; overflow:auto;">
+<code id="r-microeco-setup" style="font-family: monospace;">
+&#35; Create directory for microeco outputs
+dir.create(MECO_DIR, showWarnings = FALSE)
 
+&#35; copy the file `PSEQ_RDATA` into the microeco directory,
+&#35; under the same file name.
+file.copy(
+  from      = PSEQ_RDATA,
+  to        = file.path(MECO_DIR, basename(PSEQ_RDATA)), 
+  overwrite = TRUE
+)
+
+&#35; Switch to microeco folder
+setwd(MECO_DIR)  
+
+&#35; load pseq data
+load(PSEQ_RDATA) 
+
+&#35; Convert phyloseq object to microeco dataset
+dataset &lt;- phyloseq2meco(pseq)
+
+&#35; Summaries
+dataset$sample_sums() %&gt;% range
+dataset$sample_sums()
+
+&#35; go the beginning of the script and set RAREFACTION_DEPTH
+
+&#35; Rarefy to a uniform depth
+dataset$rarefy_samples(sample.size = RAREFACTION_DEPTH)
+
+&#35; Re-check sample sums after rarefaction
+dataset$sample_sums() %&gt;% range
+
+&#35; Save basic files
+dataset$save_table(dirpath = "basic_files", sep = ",")
+
+&#35; Calculate &amp; save abundance at each taxonomic rank
+dataset$cal_abund()
+dataset$save_abund(dirpath = "taxa_abund")
+
+&#35; Alpha diversity (including PD), then save
+dataset$cal_alphadiv(PD = TRUE)
+dataset$save_alphadiv(dirpath = "alpha_diversity")
+
+&#35; Beta diversity (including UniFrac), then save
+dataset$cal_betadiv(unifrac = TRUE)
+dataset$save_betadiv(dirpath = "beta_diversity")
+</code>
+  </pre>
+  <button onclick="copyCode('r-microeco-setup')" style="
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: #0366d6;
+    color: white;
+    border: none;
+    padding: 4px 8px;
+    border-radius: 5px;
+    font-size: 0.8em;
+    cursor: pointer;">📋 Copy</button>
+</div>
+
+<script>
+function copyCode(id) {
+  const code = document.getElementById(id).innerText;
+  navigator.clipboard.writeText(code).then(() => {
+    alert("✅ Code copied to clipboard!");
+  });
+}
+</script>
 ---
+## 7️⃣ Bar plots for relative abundacne
+
+<div style="position: relative; margin-bottom: 1em;">
+  <pre style="background:#f6f8fa; padding:1em; border-radius:6px; overflow:auto; max-height:800px;">
+<code id="barplot-taxonomic-ranks" style="font-family: monospace;"># We'll create per-sample (faceted by TREATMENT_VAR) and group-mean bar plots
+# for major taxonomic ranks: Phylum, Class, Order, Family, Genus, etc.
+
+# We'll make both (a) per-sample bar plots (faceted by Treatment)
+# and (b) group-mean bar plots, for each major taxonomic rank.
+
+#################################
+# 7.1 PHYLUM
+#################################
+# 7.1.1 Top 10 phyla (per-sample bar plot, faceted by Treatment)
+t1_Phylum &lt;- trans_abund$new(dataset = dataset, taxrank = "Phylum", ntaxa = 10)
+bar_plot_Phylum_Treatment &lt;- t1_Phylum$plot_bar(
+  color_values = paletteer::paletteer_d("ggthemes::Classic_20"),
+  bar_full     = TRUE,
+  others_color = "grey90",
+  facet        = TREATMENT_VAR,
+  strip_text   = 18,
+  legend_text_italic = FALSE,
+  xtext_angle  = 60,
+  xtext_size   = 16,
+  xtext_keep   = TRUE,
+  xtitle_keep  = TRUE,
+  ytitle_size  = 17
+)
+bar_plot_Phylum_Treatment &lt;- bar_plot_Phylum_Treatment + theme(...)
+ggsave("bar_plot_Phylum_Treatment.pdf", plot = bar_plot_Phylum_Treatment)
+
+
+#################################
+# 7.2 CLASS
+#################################
+
+# 7.2.1 Top 20 classes (per-sample bar plot, faceted by Treatment)
+t1_Class <- trans_abund$new(dataset = dataset, taxrank = "Class", ntaxa = 20)
+
+bar_plot_Class_Treatment <- t1_Class$plot_bar(
+  color_values = paletteer::paletteer_d("ggthemes::Classic_20"),
+  bar_full     = TRUE,
+  others_color = "grey90",
+  facet        = TREATMENT_VAR,
+  strip_text   = 18,
+  legend_text_italic = FALSE,
+  xtext_angle  = 60,
+  xtext_size   = 16
+)
+
+bar_plot_Class_Treatment <- bar_plot_Class_Treatment +
+  theme(
+    legend.title = element_text(size = 18, face = "bold"), 
+    legend.text  = element_text(size = 16), 
+    axis.text.y  = element_text(size = 18),
+    axis.title.y = element_text(size = 20, face = "bold")
+  )
+
+ggsave("bar_plot_Class_Treatment.pdf", 
+       plot = bar_plot_Class_Treatment, 
+       device = "pdf", width = 9, height = 6)
+
+ggsave("bar_plot_Class_Treatment.png", 
+       plot = bar_plot_Class_Treatment, 
+       device = "png", width = 9, height = 6)
+
+# 7.2.2 Class group-mean bar plot by Treatment
+t1_Class_group_Treatment <- trans_abund$new(
+  dataset   = dataset,
+  taxrank   = "Class",
+  ntaxa     = 20,
+  groupmean = TREATMENT_VAR
+)
+
+bar_plot_Class_group_Treatment <- t1_Class_group_Treatment$plot_bar(
+  color_values = paletteer::paletteer_d("ggthemes::Classic_20"),
+  bar_full     = TRUE,
+  others_color = "grey90",
+  strip_text   = 18,
+  legend_text_italic = FALSE,
+  xtext_angle  = 60,
+  xtext_size   = 16
+)
+
+bar_plot_Class_group_Treatment <- bar_plot_Class_group_Treatment +
+  theme(
+    legend.title = element_text(size = 18, face = "bold"), 
+    legend.text  = element_text(size = 16), 
+    axis.text.y  = element_text(size = 18),
+    axis.text.x  = element_text(size = 20, face = "bold"),
+    axis.title.y = element_text(size = 20, face = "bold")
+  )
+
+ggsave("bar_plot_Class_group_Treatment.pdf", 
+       plot = bar_plot_Class_group_Treatment, 
+       device = "pdf")
+
+ggsave("bar_plot_Class_group_Treatment.png", 
+       plot = bar_plot_Class_group_Treatment, 
+       device = "png")
+
+
+#################################
+# 7.3 ORDER
+#################################
+
+# 7.3.1 Top 20 orders (per-sample bar plot, faceted by Treatment)
+t1_Order <- trans_abund$new(dataset = dataset, taxrank = "Order", ntaxa = 20)
+
+bar_plot_Order_Treatment <- t1_Order$plot_bar(
+  color_values = paletteer::paletteer_d("ggthemes::Classic_20"),
+  bar_full     = TRUE,
+  others_color = "grey90",
+  facet        = TREATMENT_VAR,
+  strip_text   = 18,
+  legend_text_italic = FALSE,
+  xtext_angle  = 60,
+  xtext_size   = 16
+)
+
+bar_plot_Order_Treatment <- bar_plot_Order_Treatment +
+  theme(
+    legend.title = element_text(size = 18, face = "bold"), 
+    legend.text  = element_text(size = 16), 
+    axis.text.y  = element_text(size = 18), 
+    axis.title.y = element_text(size = 20, face = "bold")
+  )
+
+ggsave("bar_plot_Order_Treatment.pdf", 
+       plot = bar_plot_Order_Treatment, 
+       device = "pdf", width = 9, height = 6)
+
+ggsave("bar_plot_Order_Treatment.png", 
+       plot = bar_plot_Order_Treatment, 
+       device = "png", width = 9, height = 6)
+
+# 7.3.2 Order group-mean bar plot by Treatment
+t1_Order_group_Treatment <- trans_abund$new(
+  dataset   = dataset,
+  taxrank   = "Order",
+  ntaxa     = 20,
+  groupmean = TREATMENT_VAR
+)
+
+bar_plot_Order_group_Treatment <- t1_Order_group_Treatment$plot_bar(
+  color_values = paletteer::paletteer_d("ggthemes::Classic_20"),
+  bar_full     = TRUE,
+  others_color = "grey90",
+  strip_text   = 18,
+  legend_text_italic = FALSE,
+  xtext_angle  = 60,
+  xtext_size   = 16
+)
+
+bar_plot_Order_group_Treatment <- bar_plot_Order_group_Treatment +
+  theme(
+    legend.title = element_text(size = 18, face = "bold"), 
+    legend.text  = element_text(size = 16), 
+    axis.text.y  = element_text(size = 18),
+    axis.text.x  = element_text(size = 20, face = "bold"),
+    axis.title.y = element_text(size = 20, face = "bold")
+  )
+
+ggsave("bar_plot_Order_group_Treatment.pdf", 
+       plot = bar_plot_Order_group_Treatment, 
+       device = "pdf")
+
+ggsave("bar_plot_Order_group_Treatment.png", 
+       plot = bar_plot_Order_group_Treatment, 
+       device = "png")
+
+
+#################################
+# 7.4 FAMILY
+#################################
+
+# 7.4.1 Top 20 families (per-sample bar plot, faceted by Treatment)
+t1_Family <- trans_abund$new(dataset = dataset, taxrank = "Family", ntaxa = 20)
+
+bar_plot_Family_Treatment <- t1_Family$plot_bar(
+  color_values = paletteer::paletteer_d("ggthemes::Classic_20"),
+  bar_full     = TRUE,
+  others_color = "grey90",
+  facet        = TREATMENT_VAR,
+  strip_text   = 18,
+  legend_text_italic = FALSE,
+  xtext_angle  = 60,
+  xtext_size   = 16
+)
+
+bar_plot_Family_Treatment <- bar_plot_Family_Treatment +
+  theme(
+    legend.title = element_text(size = 18, face = "bold"), 
+    legend.text  = element_text(size = 16), 
+    axis.text.y  = element_text(size = 18), 
+    axis.title.y = element_text(size = 20, face = "bold")
+  )
+
+ggsave("bar_plot_Family_Treatment.pdf", 
+       plot = bar_plot_Family_Treatment, 
+       device = "pdf", width = 9, height = 6)
+
+ggsave("bar_plot_Family_Treatment.png", 
+       plot = bar_plot_Family_Treatment, 
+       device = "png", width = 9, height = 6)
+
+# 7.4.2 Family group-mean bar plot by Treatment
+t1_Family_group_Treatment <- trans_abund$new(
+  dataset   = dataset,
+  taxrank   = "Family",
+  ntaxa     = 20,
+  groupmean = TREATMENT_VAR
+)
+
+bar_plot_Family_group_Treatment <- t1_Family_group_Treatment$plot_bar(
+  color_values = paletteer::paletteer_d("ggthemes::Classic_20"),
+  bar_full     = TRUE,
+  others_color = "grey90",
+  strip_text   = 18,
+  legend_text_italic = FALSE,
+  xtext_angle  = 60,
+  xtext_size   = 16
+)
+
+bar_plot_Family_group_Treatment <- bar_plot_Family_group_Treatment +
+  theme(
+    legend.title = element_text(size = 18, face = "bold"), 
+    legend.text  = element_text(size = 16), 
+    axis.text.y  = element_text(size = 18),
+    axis.text.x  = element_text(size = 20, face = "bold"),
+    axis.title.y = element_text(size = 20, face = "bold")
+  )
+
+ggsave("bar_plot_Family_group_Treatment.pdf", 
+       plot = bar_plot_Family_group_Treatment, 
+       device = "pdf")
+
+ggsave("bar_plot_Family_group_Treatment.png", 
+       plot = bar_plot_Family_group_Treatment, 
+       device = "png")
+
+
+#################################
+# 7.5 GENUS
+#################################
+
+# 7.7.1 Top 20 genera (per-sample bar plot, faceted by Treatment)
+t1_Genus <- trans_abund$new(dataset = dataset, taxrank = "Genus", ntaxa = 20)
+
+bar_plot_Genus_Treatment <- t1_Genus$plot_bar(
+  color_values = paletteer::paletteer_d("ggthemes::Classic_20"),
+  bar_full     = TRUE,
+  others_color = "grey90",
+  facet        = TREATMENT_VAR,
+  strip_text   = 18,
+  legend_text_italic = TRUE,
+  xtext_angle  = 60,
+  xtext_size   = 16
+)
+
+bar_plot_Genus_Treatment <- bar_plot_Genus_Treatment +
+  theme(
+    legend.title = element_text(size = 18, face = "bold"), 
+    legend.text  = element_text(size = 16), 
+    axis.text.y  = element_text(size = 18), 
+    axis.title.y = element_text(size = 20, face = "bold")
+  )
+
+ggsave("bar_plot_Genus_Treatment.pdf", 
+       plot = bar_plot_Genus_Treatment, 
+       device = "pdf", width = 9, height = 6)
+
+ggsave("bar_plot_Genus_Treatment.png", 
+       plot = bar_plot_Genus_Treatment, 
+       device = "png", width = 9, height = 6)
+
+# 7.7.2 Genus group-mean bar plot by Treatment
+t1_Genus_group_Treatment <- trans_abund$new(
+  dataset   = dataset,
+  taxrank   = "Genus",
+  ntaxa     = 20,
+  groupmean = TREATMENT_VAR
+)
+
+bar_plot_Genus_group_Treatment <- t1_Genus_group_Treatment$plot_bar(
+  color_values = paletteer::paletteer_d("ggthemes::Classic_20"),
+  bar_full     = TRUE,
+  others_color = "grey90",
+  strip_text   = 18,
+  legend_text_italic = TRUE,
+  xtext_angle  = 60,
+  xtext_size   = 16
+)
+
+bar_plot_Genus_group_Treatment <- bar_plot_Genus_group_Treatment +
+  theme(
+    legend.title = element_text(size = 18, face = "bold"), 
+    legend.text  = element_text(size = 16), 
+    axis.text.y  = element_text(size = 18),
+    axis.text.x  = element_text(size = 20, face = "bold"),
+    axis.title.y = element_text(size = 20, face = "bold")
+  )
+
+ggsave("bar_plot_Genus_group_Treatment.pdf", 
+       plot = bar_plot_Genus_group_Treatment, 
+       device = "pdf")
+
+ggsave("bar_plot_Genus_group_Treatment.png", 
+       plot = bar_plot_Genus_group_Treatment, 
+       device = "png")
+</code>
+  </pre>
+  <button onclick="copyCode('barplot-taxonomic-ranks')" style="
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: #0366d6;
+    color: white;
+    border: none;
+    padding: 4px 8px;
+    border-radius: 5px;
+    font-size: 0.8em;
+    cursor: pointer;">📋 Copy</button>
+</div>
+
+<script>
+function copyCode(id) {
+  const code = document.getElementById(id).innerText;
+  navigator.clipboard.writeText(code).then(() => {
+    alert("✅ Code copied to clipboard!");
+  });
+}
+</script>
+
+
+
 
 ## 7️⃣ Alpha & Beta Diversity
 
