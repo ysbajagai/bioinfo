@@ -174,29 +174,28 @@ function copyCode(id) {
 
 You’ll read your metadata from Excel using `readxl`, and convert Qiime2 artifacts using `qza_to_phyloseq()`. Then merge all into a `phyloseq` object.
 
-
 <div style="position: relative; margin-bottom: 1em;">
   <pre style="background:#f6f8fa; padding:1em; border-radius:6px; overflow:auto;">
 <code id="r-phyloseq-obj" style="font-family: monospace;">
-# 4.1 Read in sample metadata from an Excel file
+&#35; 4.1 Read in sample metadata from an Excel file
 samples_df &lt;- read_excel(METADATA_EXCEL, sheet = METADATA_SHEET)
 
-# 4.2 Convert the "sample" column to row names
+&#35; 4.2 Convert the "sample" column to row names
 samples_df &lt;- samples_df %&gt;%
   tibble::column_to_rownames("sample")
 
-# 4.3 Convert Qiime2 artifacts into phyloseq-compatible objects
+&#35; 4.3 Convert Qiime2 artifacts into phyloseq-compatible objects
 otu_mat &lt;- qza_to_phyloseq(features = FEATURE_TABLE_QZA)
 tax_mat &lt;- qza_to_phyloseq(taxonomy = TAXONOMY_QZA)
 tree    &lt;- qza_to_phyloseq(tree = TREE_QZA)
 
-# 4.4 Create a sample_data object from the metadata
+&#35; 4.4 Create a sample_data object from the metadata
 samples &lt;- sample_data(samples_df, errorIfNULL = FALSE)
 
-# 4.5 Merge all components into a single phyloseq object
+&#35; 4.5 Merge all components into a single phyloseq object
 pseq &lt;- phyloseq(otu_mat, tax_mat, samples, tree)
 
-# Print info about the new phyloseq object
+&#35; Print info about the new phyloseq object
 pseq
 </code>
   </pre>
@@ -221,6 +220,7 @@ function copyCode(id) {
   });
 }
 </script>
+
 ---
 
 ## 4️⃣ Filter Taxa
