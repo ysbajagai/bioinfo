@@ -141,13 +141,10 @@ function copyCode(id) {
 }
 </script>
 ---
-## Environment Setup
+## 3️⃣ Environment Setup
 <div style="position: relative; margin-bottom: 1em;">
   <pre style="background:#f6f8fa; padding:1em; border-radius:6px; overflow:auto;">
 <code id="r-env-setup" style="font-family: monospace;">
-###############################################################################
-# 2. ENVIRONMENT SETUP
-###############################################################################
 set.seed(MY_SEED)        # For reproducibility
 rngseed &lt;- MY_SEED       # Keep track of the seed
 setwd(WORKDIR)           # Set working directory
