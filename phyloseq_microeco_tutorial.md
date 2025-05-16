@@ -68,11 +68,13 @@ The script installs (if necessary) and loads:
 - Bioconductor: `phyloseq`
 - GitHub: `qiime2R`
   
-
 <div style="position: relative; margin-bottom: 1em;">
   <pre style="background:#f6f8fa; padding:1em; border-radius:6px; overflow:auto;">
-<code id="r-packages" style="font-family: monospace;">
-###A) cran_packages
+<code id="r-packages-install" style="font-family: monospace;">
+&#35; This installs (if needed) and loads CRAN, Bioconductor, and GitHub packages.
+&#35; Run this block once or whenever packages need to be installed/updated.
+
+&#35; A) CRAN packages
 cran_packages &lt;- c(
   "readxl",
   "dplyr",
@@ -82,26 +84,34 @@ cran_packages &lt;- c(
   "paletteer",
   "file2meco",
   "microeco",
-  "GUniFrac",    # for UniFrac distances
-  "vegan"        # often needed for ordination or diversity calculations
+  "GUniFrac",    &#35; for UniFrac distances
+  "vegan"        &#35; often needed for ordination or diversity calculations
 )
+
 missing_cran &lt;- cran_packages[!(cran_packages %in% installed.packages()[,"Package"])]
 if(length(missing_cran)) install.packages(missing_cran)
-  ###B) Bioconductor packages (phyloseq, etc.)
+
+&#35; B) Bioconductor packages (phyloseq, etc.)
 if (!requireNamespace("BiocManager", quietly = TRUE))
   install.packages("BiocManager")
 
 if (!"phyloseq" %in% installed.packages()[,"Package"]) {
-  BiocManager::install("phyloseq")}
- ###C) GitHub package for qiime2R
+  BiocManager::install("phyloseq")
+}
+
+&#35; C) GitHub package for qiime2R
 if (!"qiime2R" %in% installed.packages()[,"Package"]) {
   if (!requireNamespace("devtools", quietly = TRUE))
     install.packages("devtools")
-  devtools::install_github("jbisanz/qiime2R")}
-###D) (Optional) microbiome package for taxa_filter()
-if (!"microbiome" %in% installed.packages()[,"Package"]) {
-install.packages("microbiome")
-} ### Now load libraries
+  devtools::install_github("jbisanz/qiime2R")
+}
+
+&#35; D) (Optional) microbiome package for taxa_filter()
+&#35; if (!"microbiome" %in% installed.packages()[,"Package"]) {
+&#35;   install.packages("microbiome")
+&#35; }
+
+&#35; Now load libraries
 library(readxl)
 library(tibble)
 library(dplyr)
@@ -113,11 +123,11 @@ library(microeco)
 library(RColorBrewer)
 library(paletteer)
 library(GUniFrac)
-library(vegan)       
-library(microbiome)  
+&#35; library(vegan)       &#35; If you need direct vegan functions
+&#35; library(microbiome)  &#35; If you need taxa_filter()
 </code>
   </pre>
-  <button onclick="copyCode('r-packages')" style="
+  <button onclick="copyCode('r-packages-install')" style="
     position: absolute;
     top: 10px;
     right: 10px;
@@ -223,7 +233,7 @@ function copyCode(id) {
 
 ---
 
-## 4️⃣ Filter Taxa
+## 5️⃣ Filter Taxa
 
 Remove:
 - Unassigned or ambiguous taxa
@@ -232,14 +242,77 @@ Remove:
 
 Optional filtering by minimum frequency is commented.
 
----
+<div style="position: relative; margin-bottom: 1em;">
+  <pre style="background:#f6f8fa; padding:1em; border-radius:6px; overflow:auto;">
+<code id="r-taxa-filter" style="font-family: monospace;">
+&#35; Customize these filters as necessary for your dataset
 
-## 5️⃣ Visualize Tree and Abundance
+&#35; 5.1 Remove unknown or unassigned phyla
+pseq &lt;- subset_taxa(pseq, !is.na(Phylum) &amp; !Phylum %in% c("", "Unassigned"))
 
-You’ll prune top N taxa and visualize with:
-```r
-plot_tree(ex1, color = TREATMENT_VAR)
-```
+&#35; 5.2 Remove Eukaryota (Kingdom)
+pseq &lt;- subset_taxa(pseq, !is.na(Kingdom) &amp; !Kingdom %in% c("", "Eukaryota"))
+
+&#35; 5.3 Remove Unassigned (Kingdom)
+pseq &lt;- subset_taxa(pseq, !is.na(Kingdom) &amp; !Kingdom %in% c("", "Unassigned"))
+
+&#35; 5.4 Remove Cyanobacteria (Phylum)
+pseq &lt;- subset_taxa(pseq, !is.na(Phylum) &amp; !Phylum %in% c("", "Cyanobacteria"))
+
+&#35; 5.5 Remove Mitochondria (Family)
+pseq &lt;- subset_taxa(pseq, !is.na(Family) &amp; !Family %in% c("", "Mitochondria"))
+
+&#35; 5.6 Remove Chloroplast (Class)
+pseq &lt;- subset_taxa(pseq, !is.na(Class) &amp; !Class %in% c("", "Chloroplast"))
+
+&#35; (Optional) Filter OTUs by minimum frequency threshold
+&#35; pseq &lt;- taxa_filter(pseq, frequency = 0.001, below = FALSE, drop_samples = TRUE)
+
+&#35; Summaries
+ntaxa(pseq)
+nsamples(pseq)
+sample_names(pseq)[1:5]
+rank_names(pseq)
+sample_variables(pseq)
+otu_table(pseq)[1:5, 1:5]
+tax_table(pseq)[1:5, 1:4]
+phy_tree(pseq)
+taxa_names(pseq)[1:10]
+
+&#35; Prune to top 10 most abundant taxa (example)
+myTaxa &lt;- names(sort(taxa_sums(pseq), decreasing = TRUE)[1:10])
+ex1    &lt;- prune_taxa(myTaxa, pseq)
+
+&#35; Quick checks/plots
+plot(phy_tree(ex1), show.node.label = TRUE)
+plot_tree(ex1, color = TREATMENT_VAR, label.tips = "Phylum",
+          ladderize = "left", justify = "left", size = "Abundance")
+
+&#35; Save the processed phyloseq object for future use
+save.image(file = PSEQ_RDATA)
+</code>
+  </pre>
+  <button onclick="copyCode('r-taxa-filter')" style="
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: #0366d6;
+    color: white;
+    border: none;
+    padding: 4px 8px;
+    border-radius: 5px;
+    font-size: 0.8em;
+    cursor: pointer;">📋 Copy</button>
+</div>
+
+<script>
+function copyCode(id) {
+  const code = document.getElementById(id).innerText;
+  navigator.clipboard.writeText(code).then(() => {
+    alert("✅ Code copied to clipboard!");
+  });
+}
+</script>
 
 ---
 
