@@ -730,6 +730,7 @@ function copyCode(id) {
 }
 </script>
 ---
+
 ## 8️⃣ Alpha & Beta Diversity
 
 - `trans_alpha$new()` calculates richness metrics like Shannon, Simpson
@@ -863,6 +864,7 @@ function copyCode(id) {
 </script>
 ---
 ## 9️⃣Group distance and PERMANOVA
+
 <div style="position: relative; margin-bottom: 1em;">
   <pre style="background:#f6f8fa; padding:1em; border-radius:6px; overflow:auto; max-height:800px;">
 <code id="group-distance-and-permanova" style="font-family: monospace;">
