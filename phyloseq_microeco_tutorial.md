@@ -406,15 +406,17 @@ function copyCode(id) {
 <code id="barplot-taxonomic-ranks" style="font-family: monospace;"># We'll create per-sample (faceted by TREATMENT_VAR) and group-mean bar plots
 # for major taxonomic ranks: Phylum, Class, Order, Family, Genus, etc.
 
-# We'll make both (a) per-sample bar plots (faceted by Treatment)
-# and (b) group-mean bar plots, for each major taxonomic rank.
+#We'll make both (a) per-sample bar plots (faceted by Treatment)
+#and (b) group-mean bar plots, for each major taxonomic rank.
 
 #################################
-# 7.1 PHYLUM
+#7.1 PHYLUM
 #################################
-# 7.1.1 Top 10 phyla (per-sample bar plot, faceted by Treatment)
-t1_Phylum &lt;- trans_abund$new(dataset = dataset, taxrank = "Phylum", ntaxa = 10)
-bar_plot_Phylum_Treatment &lt;- t1_Phylum$plot_bar(
+
+#7.1.1 Top 10 phyla (per-sample bar plot, faceted by Treatment)
+t1_Phylum <- trans_abund$new(dataset = dataset, taxrank = "Phylum", ntaxa = 10)
+
+bar_plot_Phylum_Treatment <- t1_Phylum$plot_bar(
   color_values = paletteer::paletteer_d("ggthemes::Classic_20"),
   bar_full     = TRUE,
   others_color = "grey90",
@@ -427,15 +429,23 @@ bar_plot_Phylum_Treatment &lt;- t1_Phylum$plot_bar(
   xtitle_keep  = TRUE,
   ytitle_size  = 17
 )
-bar_plot_Phylum_Treatment &lt;- bar_plot_Phylum_Treatment + theme(...)
-ggsave("bar_plot_Phylum_Treatment.pdf", plot = bar_plot_Phylum_Treatment)
 
+bar_plot_Phylum_Treatment <- bar_plot_Phylum_Treatment +
+  theme(
+    legend.title = element_text(size = 18, face = "bold"), 
+    legend.text  = element_text(size = 16), 
+    axis.text.y  = element_text(size = 18),
+    axis.title.y = element_text(size = 20, face = "bold")
+  )
+
+ggsave("bar_plot_Phylum_Treatment.pdf", plot = bar_plot_Phylum_Treatment, device = "pdf")
+ggsave("bar_plot_Phylum_Treatment.png", plot = bar_plot_Phylum_Treatment, device = "png")
 
 #################################
-# 7.2 CLASS
+#7.2 CLASS
 #################################
 
-# 7.2.1 Top 20 classes (per-sample bar plot, faceted by Treatment)
+#7.2.1 Top 20 classes (per-sample bar plot, faceted by Treatment)
 t1_Class <- trans_abund$new(dataset = dataset, taxrank = "Class", ntaxa = 20)
 
 bar_plot_Class_Treatment <- t1_Class$plot_bar(
@@ -465,7 +475,7 @@ ggsave("bar_plot_Class_Treatment.png",
        plot = bar_plot_Class_Treatment, 
        device = "png", width = 9, height = 6)
 
-# 7.2.2 Class group-mean bar plot by Treatment
+#7.2.2 Class group-mean bar plot by Treatment
 t1_Class_group_Treatment <- trans_abund$new(
   dataset   = dataset,
   taxrank   = "Class",
@@ -502,10 +512,10 @@ ggsave("bar_plot_Class_group_Treatment.png",
 
 
 #################################
-# 7.3 ORDER
+#7.3 ORDER
 #################################
 
-# 7.3.1 Top 20 orders (per-sample bar plot, faceted by Treatment)
+#7.3.1 Top 20 orders (per-sample bar plot, faceted by Treatment)
 t1_Order <- trans_abund$new(dataset = dataset, taxrank = "Order", ntaxa = 20)
 
 bar_plot_Order_Treatment <- t1_Order$plot_bar(
@@ -535,7 +545,7 @@ ggsave("bar_plot_Order_Treatment.png",
        plot = bar_plot_Order_Treatment, 
        device = "png", width = 9, height = 6)
 
-# 7.3.2 Order group-mean bar plot by Treatment
+#7.3.2 Order group-mean bar plot by Treatment
 t1_Order_group_Treatment <- trans_abund$new(
   dataset   = dataset,
   taxrank   = "Order",
@@ -572,10 +582,10 @@ ggsave("bar_plot_Order_group_Treatment.png",
 
 
 #################################
-# 7.4 FAMILY
+#7.4 FAMILY
 #################################
 
-# 7.4.1 Top 20 families (per-sample bar plot, faceted by Treatment)
+#7.4.1 Top 20 families (per-sample bar plot, faceted by Treatment)
 t1_Family <- trans_abund$new(dataset = dataset, taxrank = "Family", ntaxa = 20)
 
 bar_plot_Family_Treatment <- t1_Family$plot_bar(
@@ -605,7 +615,7 @@ ggsave("bar_plot_Family_Treatment.png",
        plot = bar_plot_Family_Treatment, 
        device = "png", width = 9, height = 6)
 
-# 7.4.2 Family group-mean bar plot by Treatment
+#7.4.2 Family group-mean bar plot by Treatment
 t1_Family_group_Treatment <- trans_abund$new(
   dataset   = dataset,
   taxrank   = "Family",
@@ -642,10 +652,10 @@ ggsave("bar_plot_Family_group_Treatment.png",
 
 
 #################################
-# 7.5 GENUS
+#7.5 GENUS
 #################################
 
-# 7.7.1 Top 20 genera (per-sample bar plot, faceted by Treatment)
+#7.7.1 Top 20 genera (per-sample bar plot, faceted by Treatment)
 t1_Genus <- trans_abund$new(dataset = dataset, taxrank = "Genus", ntaxa = 20)
 
 bar_plot_Genus_Treatment <- t1_Genus$plot_bar(
@@ -675,7 +685,7 @@ ggsave("bar_plot_Genus_Treatment.png",
        plot = bar_plot_Genus_Treatment, 
        device = "png", width = 9, height = 6)
 
-# 7.7.2 Genus group-mean bar plot by Treatment
+#7.7.2 Genus group-mean bar plot by Treatment
 t1_Genus_group_Treatment <- trans_abund$new(
   dataset   = dataset,
   taxrank   = "Genus",
@@ -732,10 +742,7 @@ function copyCode(id) {
   });
 }
 </script>
-
-
-
-
+---
 ## 7️⃣ Alpha & Beta Diversity
 
 - `trans_alpha$new()` calculates richness metrics like Shannon, Simpson
