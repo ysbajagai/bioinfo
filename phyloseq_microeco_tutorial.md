@@ -68,10 +68,11 @@ The script installs (if necessary) and loads:
 - Bioconductor: `phyloseq`
 - GitHub: `qiime2R`
   
-### A) cran_packages
+
 <div style="position: relative; margin-bottom: 1em;">
   <pre style="background:#f6f8fa; padding:1em; border-radius:6px; overflow:auto;">
 <code id="r-packages" style="font-family: monospace;">
+### A) cran_packages
 cran_packages &lt;- c(
   "readxl",
   "dplyr",
