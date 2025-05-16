@@ -141,6 +141,44 @@ function copyCode(id) {
 }
 </script>
 ---
+## Environment Setup
+<div style="position: relative; margin-bottom: 1em;">
+  <pre style="background:#f6f8fa; padding:1em; border-radius:6px; overflow:auto;">
+<code id="r-env-setup" style="font-family: monospace;">
+###############################################################################
+# 2. ENVIRONMENT SETUP
+###############################################################################
+set.seed(MY_SEED)        # For reproducibility
+rngseed &lt;- MY_SEED       # Keep track of the seed
+setwd(WORKDIR)           # Set working directory
+</code>
+  </pre>
+  <button onclick="copyCode('r-env-setup')" style="
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: #0366d6;
+    color: white;
+    border: none;
+    padding: 4px 8px;
+    border-radius: 5px;
+    font-size: 0.8em;
+    cursor: pointer;">📋 Copy</button>
+</div>
+
+<script>
+function copyCode(id) {
+  const code = document.getElementById(id).innerText;
+  navigator.clipboard.writeText(code).then(() => {
+    alert("✅ Code copied to clipboard!");
+  });
+}
+</script>
+
+
+
+
+
 ## 3️⃣ Import Metadata and Create a Phyloseq Object
 
 You’ll read your metadata from Excel using `readxl`, and convert Qiime2 artifacts using `qza_to_phyloseq()`. Then merge all into a `phyloseq` object.
