@@ -3,7 +3,7 @@ layout: default
 title: Bioinformatics Learning Hub
 ---
 
-# 👋 Welcome to the Bioinformatics Learning Hub
+# Welcome to the Bioinformatics Learning Hub
       
 Explore foundational tutorials in:
 
