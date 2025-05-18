@@ -1,3 +1,16 @@
+<script>
+  var correctPassword = "cqubioinfo2025";
+  var userInput = prompt("🔒 Training Materials – Enter password to continue:");
+  if (userInput !== correctPassword) {
+    document.body.innerHTML = `
+      <div style="text-align:center; padding-top:50px; font-family:sans-serif;">
+        <h2 style="color:#c00;">🚫 Access Denied</h2>
+        <p style="font-size:18px;">This content is currently restricted to enrolled students.</p>
+        <p style="font-size:16px;">If you would like access to these training materials, please contact:<br>
+        <a href="mailto:y.sharmabajagai@cqu.edu.au">y.sharmabajagai@cqu.edu.au</a></p>
+      </div>`;
+  }
+</script>
 ---
 layout: default
 title: 16S Phyloseq & Microeco Analysis Tutorial
