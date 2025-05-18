@@ -1,26 +1,5 @@
-<style>
-  body { display: none; }
-</style>
+<div id="protected-content" style="display:none;">
 
-<script>
-  var correctPassword = "bio2024";  // Change this password
-  var userInput = prompt("🔒 Training Materials – Enter password to continue:");
-
-  if (userInput === correctPassword) {
-    document.body.style.display = "block";
-  } else {
-    document.body.innerHTML = `
-      <div style="text-align:center; padding-top:50px; font-family:sans-serif;">
-        <h2 style="color:#c00;">🚫 Access Denied</h2>
-        <p style="font-size:18px;">This content is currently restricted to enrolled students.</p>
-        <p style="font-size:16px;">
-          If you would like access to these training materials, please contact:<br>
-          <a href="mailto:your@email.com">your@email.com</a>
-        </p>
-      </div>`;
-    document.body.style.display = "block";
-  }
-</script>
 ---
 layout: default
 title: 16S Phyloseq & Microeco Analysis Tutorial
@@ -1202,6 +1181,22 @@ function copyCode(id) {
 </script>
 
 ---
+</div> <!-- End of protected content div -->
 
-
-
+<script>
+  var correctPassword = "bio2024";  // Change this to your desired password
+  var userInput = prompt("🔒 Enter password to access this training page:");
+  if (userInput === correctPassword) {
+    document.getElementById("protected-content").style.display = "block";
+  } else {
+    document.body.innerHTML = `
+      <div style="text-align:center; padding-top:50px; font-family:sans-serif;">
+        <h2 style="color:#c00;">🚫 Access Denied</h2>
+        <p style="font-size:18px;">This content is restricted to enrolled students.</p>
+        <p style="font-size:16px;">
+          If you would like access, please contact:<br>
+          <a href="mailto:your@email.com">your@email.com</a>
+        </p>
+      </div>`;
+  }
+</script>
