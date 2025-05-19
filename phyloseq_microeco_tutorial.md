@@ -1,4 +1,25 @@
-<div id="protected-content" style="display:none;">
+<script>
+  // Hide body immediately before it renders
+  document.documentElement.style.visibility = 'hidden';
+
+  var correctPassword = "cqubioinfo2025";
+  var userInput = prompt("🔒 Enter password to view this page:");
+
+  if (userInput === correctPassword) {
+    document.documentElement.style.visibility = 'visible';
+  } else {
+    document.write(`
+      <div style="text-align:center; padding-top:50px; font-family:sans-serif;">
+        <h2 style="color:#c00;">🚫 Access Denied</h2>
+        <p style="font-size:18px;">This page is currently restricted to enrolled students.</p>
+        <p style="font-size:16px;">
+          If you would like access, please contact:<br>
+          <a href="y.sharmabajagai@cqu.edu.au">y.sharmabajagai@cqu.edu.au</a>
+        </p>
+      </div>
+    `);
+  }
+</script>
 
 ---
 layout: default
@@ -1178,25 +1199,4 @@ function copyCode(id) {
     alert("✅ Code copied to clipboard!");
   });
 }
-</script>
-
----
-</div> <!-- End of protected content div -->
-
-<script>
-  var correctPassword = "cqubioinfo2025";
-  var userInput = prompt("🔒 Enter password to access this training page:");
-  if (userInput === correctPassword) {
-    document.getElementById("protected-content").style.display = "block";
-  } else {
-    document.body.innerHTML = `
-      <div style="text-align:center; padding-top:50px; font-family:sans-serif;">
-        <h2 style="color:#c00;">🚫 Access Denied</h2>
-        <p style="font-size:18px;">This content is restricted.</p>
-        <p style="font-size:16px;">
-          If you would like access, please contact:<br>
-          <a href="mailto:y.sharmabajagai@cqu.edu.au">y.sharmabajagai@cqu.edu.au</a>
-        </p>
-      </div>`;
-  }
 </script>
