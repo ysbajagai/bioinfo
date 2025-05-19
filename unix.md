@@ -8,7 +8,7 @@ title: Unix Bash for High Performance Computing (HPC)
   document.documentElement.style.visibility = 'hidden';
 
   var correctPassword = "cqubioinfo2025";
-  var userInput = prompt("🔒 Enter password to view this page:");
+  var userInput = prompt("🔒 Enter password to view this page. If you don't have password, please contact y.sharmabajagai@cqu.edu.au:");
 
   if (userInput === correctPassword) {
     document.documentElement.style.visibility = 'visible';
