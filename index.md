@@ -7,7 +7,6 @@ title: Bioinformatics Learning Hub
       
 Explore foundational tutorials in:
 
-- 🧠 [HPC with Bash](./hpc)
 - 💻 [Unix Shell](./unix)
 - 🧪 [Bioinformatics Tools](./tools)
 - 🔍 [Quality Control (QC)](./qc)
@@ -16,4 +15,4 @@ Explore foundational tutorials in:
 - 📈 [RNA-seq Analysis](./rna-seq)
 - 📊 [Phenotypic Data Analysis](./phenotype)
 
-Enjoy hands-on lessons in high-performance computing, data wrangling, and modern bioinformatics pipelines.
+Enjoy hands-on lessons in high-performance computing, data wrangling, and modern bioinformatics and multiomics pipelines.
