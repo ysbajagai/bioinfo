@@ -1,3 +1,8 @@
+---
+layout: default
+title: 16S Phyloseq & Microeco Analysis Tutorial
+---
+
 <script>
   // Hide body immediately before it renders
   document.documentElement.style.visibility = 'hidden';
@@ -20,11 +25,6 @@
     `);
   }
 </script>
-
----
-layout: default
-title: 16S Phyloseq & Microeco Analysis Tutorial
----
 
 # 16S rRNA Sequencing Data Analysis in R using Phyloseq and Microeco
 
