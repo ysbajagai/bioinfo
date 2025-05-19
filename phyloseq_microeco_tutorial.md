@@ -2,9 +2,7 @@
 layout: default
 title: 16S Phyloseq & Microeco Analysis Tutorial
 ---
-
 <script>
-  // Hide body immediately before it renders
   document.documentElement.style.visibility = 'hidden';
 
   var correctPassword = "cqubioinfo2025";
@@ -16,15 +14,16 @@ title: 16S Phyloseq & Microeco Analysis Tutorial
     document.write(`
       <div style="text-align:center; padding-top:50px; font-family:sans-serif;">
         <h2 style="color:#c00;">🚫 Access Denied</h2>
-        <p style="font-size:18px;">This page is currently restricted to enrolled students.</p>
+        <p style="font-size:18px;">This content is currently restricted to enrolled students.</p>
         <p style="font-size:16px;">
-          If you would like access, please contact:<br>
-          <a href="y.sharmabajagai@cqu.edu.au">y.sharmabajagai@cqu.edu.au</a>
+          If you would like access to these training materials, please contact:<br>
+          <a href="mailto:y.sharmabajagai@cqu.edu.au">y.sharmabajagai@cqu.edu.au</a>
         </p>
       </div>
     `);
   }
 </script>
+
 
 # 16S rRNA Sequencing Data Analysis in R using Phyloseq and Microeco
 
