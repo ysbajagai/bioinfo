@@ -1,8 +1,8 @@
-
 ---
 layout: default
 title: Unix Bash for High Performance Computing (HPC)
 ---
+
 <script>
   // Hide body immediately before it renders
   document.documentElement.style.visibility = 'hidden';
@@ -239,4 +239,3 @@ sacct -j <jobid>     # Job accounting info
 | `sbatch job.slurm` | Submit job             |
 | `squeue -u $USER`  | View jobs              |
 
----
