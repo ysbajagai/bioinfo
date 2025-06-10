@@ -1,15 +1,14 @@
-<div id="protected-content" style="display:none;">
-  
----
-layout: default
-title: Analysis of 16S rRNA sequencng data (single-end) with QIIME2 using DADA2 plugin
----
-#Analysis of 16S rRNA sequencng data (single-end) with QIIME2 using DADA2 plugin
+<script>
+  const correctPassword = "cqubioinfo2025";
+  const userInput = prompt("🔒 Enter password to access this training page:");
+
+  if (userInput === correctPassword) {
+    document.write(`
+<pre><code class="language-bash">
+# Analysis of 16S rRNA sequencing data (single-end) with QIIME2 using DADA2 plugin
 
 # Load QIIME2 module
-
 module load Anaconda3/2024.06-1
-
 conda activate /project/2025-sharma-cqu-bioinfo/envs/qiime2-amplicon-2024.10
 
 # ======================
@@ -33,128 +32,122 @@ MAX_EE=2.0
 # ======================
 # Step 1: Import Data
 # ======================
-qiime tools import \
-  --type 'SampleData[SequencesWithQuality]' \
-  --input-path "$MANIFEST" \
-  --output-path demux.qza \
+qiime tools import \\
+  --type 'SampleData[SequencesWithQuality]' \\
+  --input-path "$MANIFEST" \\
+  --output-path demux.qza \\
   --input-format SingleEndFastqManifestPhred33V2
 
-qiime demux summarize \
-  --i-data demux.qza \
+qiime demux summarize \\
+  --i-data demux.qza \\
   --o-visualization demux.qzv
 
 # ======================
 # Step 2: Remove Adapter and primer Sequences
 # ======================
 
-qiime cutadapt trim-single \
-  --i-demultiplexed-sequences demux.qza \
-  --p-cores $THREADS \
-  --p-adapter "$ADAPTER_SEQ" \
+qiime cutadapt trim-single \\
+  --i-demultiplexed-sequences demux.qza \\
+  --p-cores $THREADS \\
+  --p-adapter "$ADAPTER_SEQ" \\
   --o-trimmed-sequences trimmed_demux.qza
 
-qiime demux summarize \
-  --i-data trimmed_demux.qza \
+qiime demux summarize \\
+  --i-data trimmed_demux.qza \\
   --o-visualization trimmed_demux.qzv
 
 # ======================
 # Step 3: Denoise with DADA2
 # ======================
-qiime dada2 denoise-single \
-  --i-demultiplexed-seqs trimmed_demux.qza \
-  --p-trim-left $TRIM_LEFT \
-  --p-trunc-len $TRUNC_LEN \
-  --p-max-ee $MAX_EE \
-  --p-n-threads $THREADS \
-  --o-table table.qza \
-  --o-representative-sequences rep-seqs.qza \
+qiime dada2 denoise-single \\
+  --i-demultiplexed-seqs trimmed_demux.qza \\
+  --p-trim-left $TRIM_LEFT \\
+  --p-trunc-len $TRUNC_LEN \\
+  --p-max-ee $MAX_EE \\
+  --p-n-threads $THREADS \\
+  --o-table table.qza \\
+  --o-representative-sequences rep-seqs.qza \\
   --o-denoising-stats denoising-stats.qza
 
-qiime metadata tabulate \
-  --m-input-file denoising-stats.qza \
+qiime metadata tabulate \\
+  --m-input-file denoising-stats.qza \\
   --o-visualization denoising-stats.qzv
 
 # ======================
 # Step 4: Feature Table and Representative Sequences Summaries
 # ======================
-qiime feature-table summarize \
-  --i-table table.qza \
-  --m-sample-metadata-file "$METADATA" \
+qiime feature-table summarize \\
+  --i-table table.qza \\
+  --m-sample-metadata-file "$METADATA" \\
   --o-visualization table.qzv
 
-qiime feature-table tabulate-seqs \
-  --i-data rep-seqs.qza \
+qiime feature-table tabulate-seqs \\
+  --i-data rep-seqs.qza \\
   --o-visualization rep-seqs.qzv
 
 # ======================
 # Step 5: Remove Singletons
 # ======================
-qiime feature-table filter-features \
-  --i-table table.qza \
-  --p-min-frequency 1 \
+qiime feature-table filter-features \\
+  --i-table table.qza \\
+  --p-min-frequency 1 \\
   --o-filtered-table table-1.qza
 
-qiime feature-table summarize \
-  --i-table table-1.qza \
-  --m-sample-metadata-file "$METADATA" \
+qiime feature-table summarize \\
+  --i-table table-1.qza \\
+  --m-sample-metadata-file "$METADATA" \\
   --o-visualization table-1.qzv
 
-qiime feature-table filter-seqs \
-  --i-data rep-seqs.qza \
-  --i-table table-1.qza \
+qiime feature-table filter-seqs \\
+  --i-data rep-seqs.qza \\
+  --i-table table-1.qza \\
   --o-filtered-data rep-seqs-1.qza
 
-qiime feature-table tabulate-seqs \
-  --i-data rep-seqs-1.qza \
+qiime feature-table tabulate-seqs \\
+  --i-data rep-seqs-1.qza \\
   --o-visualization rep-seqs-1.qzv
 
 # ======================
 # Step 6: Generate Phylogenetic Tree
 # ======================
-qiime phylogeny align-to-tree-mafft-fasttree \
-  --i-sequences rep-seqs-1.qza \
+qiime phylogeny align-to-tree-mafft-fasttree \\
+  --i-sequences rep-seqs-1.qza \\
   --output-dir phylogeny-align-to-tree-mafft-fasttree
 
 # ======================
 # Step 7: Taxonomic Classification
 # ======================
-qiime feature-classifier classify-sklearn \
-  --i-classifier "$CLASSIFIER" \
-  --i-reads rep-seqs-1.qza \
+qiime feature-classifier classify-sklearn \\
+  --i-classifier "$CLASSIFIER" \\
+  --i-reads rep-seqs-1.qza \\
   --o-classification taxonomy.qza
 
-qiime metadata tabulate \
-  --m-input-file taxonomy.qza \
+qiime metadata tabulate \\
+  --m-input-file taxonomy.qza \\
   --o-visualization taxonomy.qzv
 
 # ======================
 # Step 8: Taxa Bar Plots
 # ======================
-qiime taxa barplot \
-  --i-table table-1.qza \
-  --i-taxonomy taxonomy.qza \
-  --m-metadata-file "$METADATA" \
+qiime taxa barplot \\
+  --i-table table-1.qza \\
+  --i-taxonomy taxonomy.qza \\
+  --m-metadata-file "$METADATA" \\
   --o-visualization taxa-bar-plots.qzv
 
 # ======================
 # Step 9: Alpha Rarefaction
 # ======================
-qiime diversity alpha-rarefaction \
-  --i-table table-1.qza \
-  --i-phylogeny phylogeny-align-to-tree-mafft-fasttree/rooted_tree.qza \
-  --p-max-depth $MAX_DEPTH \
-  --m-metadata-file "$METADATA" \
+qiime diversity alpha-rarefaction \\
+  --i-table table-1.qza \\
+  --i-phylogeny phylogeny-align-to-tree-mafft-fasttree/rooted_tree.qza \\
+  --p-max-depth $MAX_DEPTH \\
+  --m-metadata-file "$METADATA" \\
   --o-visualization alpha-rarefaction.qzv
-
-</div> <!-- End of protected content div -->
-
-<script>
-  var correctPassword = "cqubioinfo2025";
-  var userInput = prompt("🔒 Enter password to access this training page:");
-  if (userInput === correctPassword) {
-    document.getElementById("protected-content").style.display = "block";
+</code></pre>
+`);
   } else {
-    document.body.innerHTML = `
+    document.write(`
       <div style="text-align:center; padding-top:50px; font-family:sans-serif;">
         <h2 style="color:#c00;">🚫 Access Denied</h2>
         <p style="font-size:18px;">This content is restricted.</p>
@@ -162,6 +155,7 @@ qiime diversity alpha-rarefaction \
           If you would like access, please contact:<br>
           <a href="mailto:y.sharmabajagai@cqu.edu.au">y.sharmabajagai@cqu.edu.au</a>
         </p>
-      </div>`;
+      </div>
+    `);
   }
 </script>
