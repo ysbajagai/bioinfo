@@ -46,9 +46,9 @@ WORKDIR &lt;- "XXXXXXX"
 METADATA_EXCEL &lt;- "sample_metadata.xlsx"
 METADATA_SHEET &lt;- "Sheet1"  # The sheet name where metadata is stored
 ### Names of Qiime2 artifacts to import
-FEATURE_TABLE_QZA &lt;- "table-2.qza"
+FEATURE_TABLE_QZA &lt;- "table.qza"
 TAXONOMY_QZA      &lt;- "taxonomy.qza"
-TREE_QZA          &lt;- "tree.qza"
+TREE_QZA          &lt;- "rooted_tree.qza"
 ### Optional .RData output file name
 PSEQ_RDATA &lt;- "XXX_pseq.RData"
 ### Directories and filenames for microeco step
