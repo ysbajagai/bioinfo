@@ -10,7 +10,7 @@ Explore foundational tutorials in:
 - 💻 [Unix Shell](./unix)
 - 🧪 [Bioinformatics Tools](./tools)
 - 🔍 [Quality Control (QC)](./qc)
-- 🧬 [16S rRNA Analysis](./phyloseq_microeco_tutorial)
+- 🧬 [16S rRNA Analysis with Phyloseq and Microeco](./phyloseq_microeco_tutorial)
 - 🌎 [Metagenomics](./metagenomics)
 - 📈 [RNA-seq Analysis](./rna-seq)
 - 📊 [Phenotypic Data Analysis](./phenotype)
