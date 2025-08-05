@@ -42,6 +42,11 @@ qiime demux summarize \\
   --i-data demux.qza \\
   --o-visualization demux.qzv
 
+  # demux.qzv file (or any other .qzv files) can be visualised as below
+
+  qiime tools view demux.qzv
+#if your command line didn't support direct visualisation from the command line, save the file locally and visualise with www.view.qiime2.org in your browser
+
 # ======================
 # Step 2: Remove Adapter and primer Sequences
 # ======================
