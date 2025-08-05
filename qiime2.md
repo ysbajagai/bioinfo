@@ -76,38 +76,38 @@ qiime metadata tabulate \\
 # ======================
 # Step 4: Feature Table and Representative Sequences Summaries
 # ======================
-qiime feature-table summarize \
-  --i-table table.qza \
-  --m-sample-metadata-file "$METADATA" \
+qiime feature-table summarize \\
+  --i-table table.qza \\
+  --m-sample-metadata-file "$METADATA" \\
   --o-visualization table.qzv
 
-qiime feature-table tabulate-seqs \
-  --i-data rep-seqs.qza \
+qiime feature-table tabulate-seqs \\
+  --i-data rep-seqs.qza \\
   --o-visualization rep-seqs.qzv
 
 # ======================
 # Step 5: Filter feature-table and summarise - remove singletons
 # ======================
 
-qiime feature-table filter-features \
-  --i-table table.qza \
-  --p-min-frequency 1 \
+qiime feature-table filter-features \\
+  --i-table table.qza \\
+  --p-min-frequency 1 \\
   --o-filtered-table table-1.qza
 
-qiime feature-table summarize \
-  --i-table table-1.qza \
-  --m-sample-metadata-file "$METADATA" \
+qiime feature-table summarize \\
+  --i-table table-1.qza \\
+  --m-sample-metadata-file "$METADATA" \\
   --o-visualization table-1.qzv
   
 ##corresponding representative sequence files after removing singletons
 
-qiime feature-table filter-seqs \
-  --i-data rep-seqs.qza \
-  --i-table table-1.qza \
+qiime feature-table filter-seqs \\
+  --i-data rep-seqs.qza \\
+  --i-table table-1.qza \\
   --o-filtered-data rep-seqs-1.qza
 
-qiime feature-table tabulate-seqs \
-  --i-data rep-seqs-1.qza \
+qiime feature-table tabulate-seqs \\
+  --i-data rep-seqs-1.qza \\
   --o-visualization rep-seqs-1.qzv
 
 # ======================
