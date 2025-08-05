@@ -74,39 +74,47 @@ qiime metadata tabulate \\
   --o-visualization denoising-stats.qzv
 
 # ======================
-# Step 4: Filter feature-table
+# Step 4: Feature Table and Representative Sequences Summaries
+# ======================
+qiime feature-table summarize \
+  --i-table table.qza \
+  --m-sample-metadata-file "$METADATA" \
+  --o-visualization table.qzv
+
+qiime feature-table tabulate-seqs \
+  --i-data rep-seqs.qza \
+  --o-visualization rep-seqs.qzv
+
+# ======================
+# Step 5: Filter feature-table and summarise - remove singletons
 # ======================
 
 qiime feature-table filter-features \
   --i-table table.qza \
-  --p-min-frequency 5 \
-  --p-min-samples 3
-  --o-filtered-table filtered-table.qza
+  --p-min-frequency 1 \
+  --o-filtered-table table-1.qza
 
-##keep only filtered-table ASVs in rep-seqs
+qiime feature-table summarize \
+  --i-table table-1.qza \
+  --m-sample-metadata-file "$METADATA" \
+  --o-visualization table-1.qzv
+  
+##corresponding representative sequence files after removing singletons
 
 qiime feature-table filter-seqs \
-	--i-data rep-seqs.qza \
-	--i-table filtered-table.qza \
-	--o-filtered-data filtered-rep-seqs.qza
-
-# ======================
-# Step 5: Feature Table and Representative Sequences Summaries
-# ======================
-qiime feature-table summarize \
-  --i-table filtered-table.qza \
-  --m-sample-metadata-file "$METADATA" \
-  --o-visualization filtered-table.qzv
+  --i-data rep-seqs.qza \
+  --i-table table-1.qza \
+  --o-filtered-data rep-seqs-1.qza
 
 qiime feature-table tabulate-seqs \
-	--i-data filtered-rep-seqs.qza \
-	--o-visualization filtered-rep-seqs.qzv
+  --i-data rep-seqs-1.qza \
+  --o-visualization rep-seqs-1.qzv
 
 # ======================
 # Step 6: Generate Phylogenetic Tree
 # ======================
 qiime phylogeny align-to-tree-mafft-fasttree \\
-  --i-sequences filtered-rep-seqs.qza \\
+  --i-sequences filtered-rep-seqs-1.qza \\
   --output-dir phylogeny-align-to-tree-mafft-fasttree
 
 # ======================
@@ -114,7 +122,7 @@ qiime phylogeny align-to-tree-mafft-fasttree \\
 # ======================
 qiime feature-classifier classify-sklearn \\
   --i-classifier "$CLASSIFIER" \\
-  --i-reads filtered-rep-seqs.qza \\
+  --i-reads filtered-rep-seqs-1.qza \\
   --o-classification taxonomy.qza
 
 qiime metadata tabulate \\
@@ -125,7 +133,7 @@ qiime metadata tabulate \\
 # Step 8: Taxa Bar Plots
 # ======================
 qiime taxa barplot \\
-  --i-table filtered-table.qza \\
+  --i-table table-1.qza \\
   --i-taxonomy taxonomy.qza \\
   --m-metadata-file "$METADATA" \\
   --o-visualization taxa-bar-plots.qzv
@@ -134,7 +142,7 @@ qiime taxa barplot \\
 # Step 9: Alpha Rarefaction
 # ======================
 qiime diversity alpha-rarefaction \\
-  --i-table filtered-table.qza \\
+  --i-table table-1.qza \\
   --i-phylogeny phylogeny-align-to-tree-mafft-fasttree/rooted_tree.qza \\
   --p-max-depth $MAX_DEPTH \\
   --m-metadata-file "$METADATA" \\
