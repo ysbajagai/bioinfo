@@ -7,8 +7,12 @@
 <pre><code class="language-bash">
 # Analysis of 16S rRNA sequencing data (single-end) with QIIME2 using DADA2 plugin
 
+cd /project/2025-sharma-cqu-bioinfo/training
+mkdir /home/USERNAME/data
+
 # Load QIIME2 module
 module load Anaconda3/2024.06-1
+conda init
 conda activate /project/2025-sharma-cqu-bioinfo/envs/qiime2-amplicon-2024.10
 
 # ======================
@@ -32,10 +36,11 @@ MAX_EE=2.0
 # ======================
 # Step 1: Import Data
 # ======================
+
 qiime tools import \\
   --type 'SampleData[SequencesWithQuality]' \\
   --input-path "$MANIFEST" \\
-  --output-path demux.qza \\
+  --output-path /home/USERNAME/data/demux.qza \\
   --input-format SingleEndFastqManifestPhred33V2
 
 qiime demux summarize \\
