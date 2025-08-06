@@ -7,31 +7,37 @@
 <pre><code class="language-bash">
 # Analysis of 16S rRNA sequencing data (single-end) with QIIME2 using DADA2 plugin
 
-cd /project/2025-sharma-cqu-bioinfo/training
-mkdir /home/USERNAME/data
-
-# Load QIIME2 module
-module load Anaconda3/2024.06-1
-conda init
-conda activate /project/2025-sharma-cqu-bioinfo/envs/qiime2-amplicon-2024.10
 
 # ======================
 # Define Variables (change for each project)
 # ======================
 
-MANIFEST="manifest.txt"
-METADATA="sample-metadata.txt"
+USERNAME="type your user name here"
+MANIFEST="/project/2025-sharma-cqu-bioinfo/training/manifest.txt"
+METADATA="/project/2025-sharma-cqu-bioinfo/training/sample-metadata.txt"
 ADAPTER_SEQ="AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT"
 #PRIMER_SEQ="GACTACNVGGGTATCTAATCC"
 CLASSIFIER="/project/2025-sharma-cqu-bioinfo/training/silva-138-99-nb-classifier.qza"
+QIIME_ENV="/project/2025-sharma-cqu-bioinfo/envs/qiime2-amplicon-2024.10"
 THREADS=24
-MAX_DEPTH=5000
+MAX_DEPTH=3000
 
 #define the following after checking the quality plot before running dada2
 
 TRIM_LEFT=21
 TRUNC_LEN=250
 MAX_EE=2.0
+
+mkdir /home/$USERNAME/data/q2_training
+WORKDIR="/home/$USERNAME/data/q2_training"
+
+cd $WORKDIR
+
+# Load QIIME2 module
+
+module load Anaconda3/2024.06-1
+conda activate "$QIIME_ENV"
+
 
 # ======================
 # Step 1: Import Data
@@ -40,7 +46,7 @@ MAX_EE=2.0
 qiime tools import \\
   --type 'SampleData[SequencesWithQuality]' \\
   --input-path "$MANIFEST" \\
-  --output-path /home/USERNAME/data/demux.qza \\
+  --output-path demux.qza \\
   --input-format SingleEndFastqManifestPhred33V2
 
 qiime demux summarize \\
@@ -101,30 +107,30 @@ qiime feature-table tabulate-seqs \\
 
 qiime feature-table filter-features \\
   --i-table table.qza \\
-  --p-min-frequency 1 \\
-  --o-filtered-table table-1.qza
+  --p-min-frequency 2 \\
+  --o-filtered-table table-2.qza
 
 qiime feature-table summarize \\
-  --i-table table-1.qza \\
+  --i-table table-2.qza \\
   --m-sample-metadata-file "$METADATA" \\
-  --o-visualization table-1.qzv
+  --o-visualization table-2.qzv
   
 ##corresponding representative sequence files after removing singletons
 
 qiime feature-table filter-seqs \\
   --i-data rep-seqs.qza \\
-  --i-table table-1.qza \\
+  --i-table table-2.qza \\
   --o-filtered-data rep-seqs-1.qza
 
 qiime feature-table tabulate-seqs \\
-  --i-data rep-seqs-1.qza \\
-  --o-visualization rep-seqs-1.qzv
+  --i-data rep-seqs-2.qza \\
+  --o-visualization rep-seqs-2.qzv
 
 # ======================
 # Step 6: Generate Phylogenetic Tree
 # ======================
 qiime phylogeny align-to-tree-mafft-fasttree \\
-  --i-sequences filtered-rep-seqs-1.qza \\
+  --i-sequences rep-seqs-2.qza \\
   --output-dir phylogeny-align-to-tree-mafft-fasttree
 
 # ======================
@@ -132,7 +138,7 @@ qiime phylogeny align-to-tree-mafft-fasttree \\
 # ======================
 qiime feature-classifier classify-sklearn \\
   --i-classifier "$CLASSIFIER" \\
-  --i-reads filtered-rep-seqs-1.qza \\
+  --i-reads rep-seqs-2.qza \\
   --o-classification taxonomy.qza
 
 qiime metadata tabulate \\
@@ -143,7 +149,7 @@ qiime metadata tabulate \\
 # Step 8: Taxa Bar Plots
 # ======================
 qiime taxa barplot \\
-  --i-table table-1.qza \\
+  --i-table table-2.qza \\
   --i-taxonomy taxonomy.qza \\
   --m-metadata-file "$METADATA" \\
   --o-visualization taxa-bar-plots.qzv
@@ -152,7 +158,7 @@ qiime taxa barplot \\
 # Step 9: Alpha Rarefaction
 # ======================
 qiime diversity alpha-rarefaction \\
-  --i-table table-1.qza \\
+  --i-table table-2.qza \\
   --i-phylogeny phylogeny-align-to-tree-mafft-fasttree/rooted_tree.qza \\
   --p-max-depth $MAX_DEPTH \\
   --m-metadata-file "$METADATA" \\
