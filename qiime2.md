@@ -6,7 +6,15 @@
     document.write(`
 <pre><code class="language-bash">
 # Analysis of 16S rRNA sequencing data (single-end) with QIIME2 using DADA2 plugin
+#Ensure you have "manifest.txt" file, and "sample-metadata.txt" files  in your working directory. You don't need classifier if you use the following code.
 
+# ======================
+# Load QIIME2 module - change the QIIME_ENV when qiime2 is updated
+# ======================
+
+QIIME_ENV="/project/2025-sharma-cqu-bioinfo/envs/qiime2-amplicon-2024.10"
+module load Anaconda3/2024.06-1
+conda activate "$QIIME_ENV"
 
 # ======================
 # Define Variables (change for each project)
@@ -18,7 +26,6 @@ METADATA="/project/2025-sharma-cqu-bioinfo/training/sample-metadata.txt"
 ADAPTER_SEQ="AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT"
 #PRIMER_SEQ="GACTACNVGGGTATCTAATCC"
 CLASSIFIER="/project/2025-sharma-cqu-bioinfo/training/silva-138-99-nb-classifier.qza"
-QIIME_ENV="/project/2025-sharma-cqu-bioinfo/envs/qiime2-amplicon-2024.10"
 THREADS=24
 MAX_DEPTH=3000
 
@@ -32,12 +39,6 @@ mkdir /home/$USERNAME/data/q2_training
 WORKDIR="/home/$USERNAME/data/q2_training"
 
 cd $WORKDIR
-
-# Load QIIME2 module
-
-module load Anaconda3/2024.06-1
-conda activate "$QIIME_ENV"
-
 
 # ======================
 # Step 1: Import Data
@@ -55,7 +56,8 @@ qiime demux summarize \\
 
   # demux.qzv file (or any other .qzv files) can be visualised as below
 
-  qiime tools view demux.qzv
+qiime tools view demux.qzv
+  
 #if your command line didn't support direct visualisation from the command line, save the file locally and visualise with www.view.qiime2.org in your browser
 
 # ======================
