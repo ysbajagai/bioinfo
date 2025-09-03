@@ -122,7 +122,7 @@ qiime feature-table summarize \\
 qiime feature-table filter-seqs \\
   --i-data rep-seqs.qza \\
   --i-table table-2.qza \\
-  --o-filtered-data rep-seqs-1.qza
+  --o-filtered-data rep-seqs-2.qza
 
 qiime feature-table tabulate-seqs \\
   --i-data rep-seqs-2.qza \\
