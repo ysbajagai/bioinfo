@@ -30,6 +30,11 @@ title: 16S Phyloseq & Microeco Analysis Tutorial
 This tutorial provides a complete R-based workflow for analyzing 16S rRNA sequencing data using `qiime2R`, `phyloseq`, and `microeco` packages.
 
 ---
+## Load R and open Rstudio
+
+module load R-bundle-Bioconductor/3.20-foss-2024a-R-4.4.2
+module load rstudio
+rstudio
 
 ## 1️⃣ User-defined Settings
 The script begins by defining working directories, filenames, and project-specific variables.
