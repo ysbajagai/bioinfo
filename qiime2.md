@@ -6,7 +6,7 @@
     document.write(`
 <pre><code class="language-bash">
 # Analysis of 16S rRNA sequencing data (single-end) with QIIME2 using DADA2 plugin
-#Ensure you have "manifest.txt" file, and "sample-metadata.txt" files  in your working directory. You don't need classifier if you use the following code.
+#Ensure you have "manifest.txt" file, and "sample-metadata.txt" files  in your working directory. You don't need a classifier if you use the following code, as the classifier will be accessed from a shared location.
 
 # ======================
 # Load QIIME2 module - change the QIIME_ENV when qiime2 is updated
