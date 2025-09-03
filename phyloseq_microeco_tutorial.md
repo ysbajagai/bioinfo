@@ -32,9 +32,7 @@ This tutorial provides a complete R-based workflow for analyzing 16S rRNA sequen
 ---
 ## Load R and open Rstudio
 
-module load R-bundle-Bioconductor/3.20-foss-2024a-R-4.4.2 \\
-module load rstudio \\
-rstudio
+<pre> ```bash module load R-bundle-Bioconductor/3.20-foss-2024a-R-4.4.2 module load rstudio rstudio ``` </pre>
 
 ## 1️⃣ User-defined Settings
 The script begins by defining working directories, filenames, and project-specific variables.
