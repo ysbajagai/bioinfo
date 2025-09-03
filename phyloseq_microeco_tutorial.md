@@ -3,28 +3,12 @@ layout: default
 title: 16S Phyloseq & Microeco Analysis Tutorial
 ---
 <script>
-  document.documentElement.style.visibility = 'hidden';
-
-  var correctPassword = "cqubioinfo2025";
-  var userInput = prompt("🔒 Enter password to view this page, If you don't have password please contact y.sharmabajagai@cqu.edu.au:");
+  const correctPassword = "cqubioinfo2025";
+  const userInput = prompt("🔒 Enter password to access this training page:");
 
   if (userInput === correctPassword) {
-    document.documentElement.style.visibility = 'visible';
-  } else {
     document.write(`
-      <div style="text-align:center; padding-top:50px; font-family:sans-serif;">
-        <h2 style="color:#c00;">🚫 Access Denied</h2>
-        <p style="font-size:18px;">This content is currently restricted to enrolled students.</p>
-        <p style="font-size:16px;">
-          If you would like access to these training materials, please contact:<br>
-          <a href="mailto:y.sharmabajagai@cqu.edu.au">y.sharmabajagai@cqu.edu.au</a>
-        </p>
-      </div>
-    `);
-  }
-</script>
-
-
+<pre><code class="language-bash">
 # 16S rRNA Sequencing Data Analysis in R using Phyloseq and Microeco
 
 This tutorial provides a complete R-based workflow for analyzing 16S rRNA sequencing data using `qiime2R`, `phyloseq`, and `microeco` packages.
@@ -1201,4 +1185,18 @@ function copyCode(id) {
     alert("✅ Code copied to clipboard!");
   });
 }
+  </code></pre>
+`);
+  } else {
+    document.write(`
+      <div style="text-align:center; padding-top:50px; font-family:sans-serif;">
+        <h2 style="color:#c00;">🚫 Access Denied</h2>
+        <p style="font-size:18px;">This content is restricted.</p>
+        <p style="font-size:16px;">
+          If you would like access, please contact:<br>
+          <a href="mailto:y.sharmabajagai@cqu.edu.au">y.sharmabajagai@cqu.edu.au</a>
+        </p>
+      </div>
+    `);
+  }
 </script>
