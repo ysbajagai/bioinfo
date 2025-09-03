@@ -1184,8 +1184,6 @@ function copyCode(id) {
   navigator.clipboard.writeText(code).then(() => {
     alert("✅ Code copied to clipboard!");
   });
-}
-  </code></pre>
 `);
   } else {
     document.write(`
