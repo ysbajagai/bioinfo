@@ -668,74 +668,29 @@ message("All analyses complete. Session info and workspace saved.")</code></pre>
     `;
   }
 
-  // 2) Password gate with prompt + fallback form
-  (function () {
-    const correctPassword = "cqubioinfo2025";
-    const gate = document.getElementById("gate");
-    const content = document.getElementById("content");
-    const card = document.getElementById("pw-card");
-    const pwErr = document.getElementById("pw-error");
-    const pwInput = document.getElementById("pw-input");
-    const pwForm = document.getElementById("pw-form");
-    const pwSubmit = document.getElementById("pw-submit");
+  // Simple gate (no popups)
+  const PASSWORD = "cqubioinfo2025";
 
-    function showPage() {
-      content.innerHTML = buildPageHTML();
-      gate.style.display = "none";
-      card.style.display = "none";
-      content.style.display = "block";
-    }
+  function unlock() {
+    const input = document.getElementById('pw-input');
+    const err = document.getElementById('pw-error');
+    const card = document.getElementById('pw-card');
+    const content = document.getElementById('content');
+    if (!input || !content) return;
 
-    function showForm() {
-      card.style.display = "block";
-      content.style.display = "none";
-      gate.innerHTML = ""; // clear any prior msg
-      if (pwInput) pwInput.focus();
-    }
-
-    function tryUnlockWith(value) {
-      if (value === correctPassword) {
-        showPage();
-      } else {
-        // show access denied or keep the form visible
-        if (card.style.display !== "block") {
-          gate.innerHTML = `
-            <div style="text-align:center; padding-top:50px; font-family:sans-serif;">
-              <h2 style="color:#c00;">🚫 Access Denied</h2>
-              <p style="font-size:18px;">This content is restricted.</p>
-              <p style="font-size:16px;">
-                If you would like access, please contact:<br>
-                <a href="mailto:y.sharmabajagai@cqu.edu.au">y.sharmabajagai@cqu.edu.au</a>
-              </p>
-            </div>
-          `;
-        } else {
-          pwErr.style.display = "block";
-          pwInput.focus(); pwInput.select();
-        }
-      }
-    }
-
-    // Attempt prompt first (some browsers may block on load)
-    let userInput = null;
-    try { userInput = prompt("🔒 Enter password to access this training page:"); }
-    catch (e) { userInput = null; }
-    if (userInput !== null) {
-      tryUnlockWith(userInput);
+    if (input.value === PASSWORD) {
+      content.innerHTML = PAGE_HTML;
+      card.style.display = 'none';
+      content.style.display = 'block';
     } else {
-      showForm();
+      err.style.display = 'block';
+      input.focus();
+      input.select();
     }
+  }
 
-    // Fallback form handlers
-    if (pwForm) {
-      pwForm.addEventListener("submit", function () {
-        tryUnlockWith(pwInput.value);
-      });
-    }
-    if (pwSubmit) {
-      pwSubmit.addEventListener("click", function () {
-        tryUnlockWith(pwInput.value);
-      });
-    }
-  })();
+  // Hook up events
+  document.getElementById('pw-form')?.addEventListener('submit', unlock);
+  document.getElementById('pw-submit')?.addEventListener('click', unlock);
 </script>
+{% endraw %}
