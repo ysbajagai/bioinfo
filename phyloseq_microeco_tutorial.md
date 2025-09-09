@@ -1,6 +1,6 @@
 ---
 layout: default
-title: 16S Phyloseq & Microeco Analysis Tutorial
+title: 16S rRNA - Phyloseq & Microeco Analysis Tutorial
 ---
 
 <style>
@@ -14,10 +14,11 @@ title: 16S Phyloseq & Microeco Analysis Tutorial
     background: #0366d6; color: #fff; border: 0; padding: 6px 10px;
     border-radius: 6px; font-size: 0.85em; cursor: pointer;
   }
-  h2, h3 { margin-top: 1.2em; }
+  h1,h2, h3 { margin-top: 1.2em; }
   .muted { color:#666; }
+  .note { background:#fff7cc; border:1px solid #ffe58a; padding:.6em .8em; border-radius:6px; }
 
-  /* Fallback password card */
+  /* Password card */
   .pw-wrap {
     max-width: 460px; margin: 12vh auto 3rem; padding: 1.25rem 1rem;
     border: 1px solid #e5e7eb; border-radius: 10px; background: #fff;
@@ -38,9 +39,8 @@ title: 16S Phyloseq & Microeco Analysis Tutorial
   .pw-err { color:#c00; margin-top:.5rem; display:none; }
 </style>
 
-<div id="gate"></div>
-<!-- fallback inline password form; hidden by JS if prompt succeeds -->
-<div id="pw-card" class="pw-wrap" style="display:none;">
+<!-- Password form (visible by default) -->
+<div id="pw-card" class="pw-wrap">
   <h2>🔒 Enter password to access this training page</h2>
   <p>Contact <a href="mailto:y.sharmabajagai@cqu.edu.au">y.sharmabajagai@cqu.edu.au</a> if you need access.</p>
   <form id="pw-form" onsubmit="return false;">
@@ -52,8 +52,10 @@ title: 16S Phyloseq & Microeco Analysis Tutorial
   </form>
 </div>
 
+<!-- Hidden content container -->
 <div id="content" style="display:none;"></div>
 
+{% raw %}
 <script>
   // 1) ONE copy function for all code blocks
   function copyCode(id) {
@@ -77,6 +79,9 @@ title: 16S Phyloseq & Microeco Analysis Tutorial
       </p>
 
       <hr />
+      <p>
+      Before starting R, please copy the example data (demo files) from "/project/2025-sharma-cqu-bioinfo/training/phyloseq_meco/data" to your working directory
+      <p>
       <h2>Load R and open RStudio</h2>
       <div class="codewrap">
         <button class="copybtn" onclick="copyCode('bash-load')">📋 Copy</button>
@@ -95,19 +100,19 @@ MY_SEED <- 2345
 WORKDIR <- "XXXXXXX"
 ### Excel file containing sample metadata
 METADATA_EXCEL <- "sample_metadata.xlsx"
-METADATA_SHEET <- "Sheet1"  # The sheet name where metadata is stored
+METADATA_SHEET <- "sample-metadata"  # The sheet name where metadata is stored
 ### Names of Qiime2 artifacts to import
 FEATURE_TABLE_QZA <- "table.qza"
 TAXONOMY_QZA      <- "taxonomy.qza"
 TREE_QZA          <- "rooted_tree.qza"
 ### Optional .RData output file name
 PSEQ_RDATA <- "XXX_pseq.RData"
-### Directories and filenames for microeco step
+### Directory for microeco results
 MECO_DIR <- "./meco"
 ### Rarefaction depth for microeco
-RAREFACTION_DEPTH <-   # you need to come back here later
+RAREFACTION_DEPTH <-   # you need to come back here later (hint: 2000 for this study)
 ### For alpha/beta diversity, bar plots, etc.
-TREATMENT_VAR <- "Treatment"   # The name of the variable in your sample_data
+TREATMENT_VAR <- "Origin.Treatment"   # The name of the variable in your sample_data
 ### File name to save final workspace & session info
 FINAL_WORKSPACE <- "XXXX_final_workspace.RData"
 SESSION_INFO    <- "XXXX_sessionInfo.txt"</code></pre>
@@ -489,11 +494,11 @@ alpha_summary <- t1_alpha$data_stat
 write.csv(alpha_summary, "alpha_summary.csv")
 
 # Group-difference tests (Kruskal-Wallis)
-t1_alpha$cal_diff(method = "KW")
-alpha_KW <- t1_alpha$res_diff
-write.csv(alpha_KW, "alpha_diff_KW.csv")
+t1_alpha$cal_diff(method = "KW_dunn") # "KW" =  Non-parametric alternative to one-way ANOVA, # "KW_dunn" = Pairwise comparison for ≥3 groups, "wilcox" = Non-parametric alternative to the two-sample t-test. - choose the right test!
+alpha_KW_dunn <- t1_alpha$res_diff
+write.csv(alpha_KW_dunn, "alpha_diff_KW_dunn.csv")
 
-# Plot a few metrics
+# Plot richness and diversity indices
 my_color_palette <- RColorBrewer::brewer.pal(n = 9, name = "Set1")
 metrics_to_plot <- c("Shannon", "Simpson", "Observed", "InvSimpson", "Chao1")
 for (m in metrics_to_plot) {
@@ -519,7 +524,7 @@ t1_wei$cal_ordination(method = "PCoA")
 pcoa_wei <- t1_wei$plot_ordination(
   plot_color             = TREATMENT_VAR,
   color_values           = my_color_palette,
-  plot_type              = "point",
+  plot_type              = c("point", "ellipse"),
   centroid_segment_alpha = 1,
   point_alpha            = 1,
   centroid_segment_size  = 0.5,
@@ -532,7 +537,7 @@ t1_wei$cal_ordination(method = "NMDS")
 nmds_wei <- t1_wei$plot_ordination(
   plot_color             = TREATMENT_VAR,
   color_values           = my_color_palette,
-  plot_type              = "point",
+  plot_type              = c("point", "ellipse"),
   centroid_segment_alpha = 1,
   point_alpha            = 1,
   centroid_segment_size  = 0.5,
@@ -551,7 +556,7 @@ t1_unwei$cal_ordination(method = "PCoA")
 pcoa_unwei <- t1_unwei$plot_ordination(
   plot_color             = TREATMENT_VAR,
   color_values           = my_color_palette,
-  plot_type              = "point",
+  plot_type              = c("point", "ellipse"),
   centroid_segment_alpha = 1,
   point_alpha            = 1
 ) + theme_classic() + geom_vline(xintercept = 0, linetype = 2) + geom_hline(yintercept = 0, linetype = 2)
@@ -562,7 +567,7 @@ t1_unwei$cal_ordination(method = "NMDS")
 nmds_unwei <- t1_unwei$plot_ordination(
   plot_color             = TREATMENT_VAR,
   color_values           = my_color_palette,
-  plot_type              = "point",
+  plot_type              = c("point", "ellipse"),
   centroid_segment_alpha = 1,
   point_alpha            = 1
 ) + theme_classic() + geom_vline(xintercept = 0, linetype = 2) + geom_hline(yintercept = 0, linetype = 2)
@@ -586,7 +591,7 @@ write.csv(t1_wei$res_manova, "permanova_wei_unifrac.csv")
 
 # Unweighted UniFrac
 t1_unwei$cal_group_distance(within_group = TRUE)
-t1_unwei$cal_group_distance_diff(method = "KW")
+t1_unwei$cal_group_distance_diff(method = "KW_dunn") #choose righst statistical test
 write.csv(t1_unwei$res_group_distance_diff, "unwei_unifrac_distance_diff.csv")
 dist_plot_unwei <- t1_unwei$plot_group_distance(
   boxplot_add = "mean",
