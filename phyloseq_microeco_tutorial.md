@@ -668,10 +668,14 @@ message("All analyses complete. Session info and workspace saved.")</code></pre>
     `;
   }
 
+  // prebuild the page HTML so it's available to unlock()
+  const PAGE_HTML = buildPageHTML();
+  
   // Simple gate (no popups)
   const PASSWORD = "cqubioinfo2025";
 
-  function unlock() {
+ function unlock(e) {
+    if (e && e.preventDefault) e.preventDefault();
     const input = document.getElementById('pw-input');
     const err = document.getElementById('pw-error');
     const card = document.getElementById('pw-card');
@@ -679,9 +683,10 @@ message("All analyses complete. Session info and workspace saved.")</code></pre>
     if (!input || !content) return;
 
     if (input.value === PASSWORD) {
-      content.innerHTML = PAGE_HTML;
+      content.innerHTML = PAGE_HTML;              // now defined ✅
       card.style.display = 'none';
       content.style.display = 'block';
+      err.style.display = 'none';
     } else {
       err.style.display = 'block';
       input.focus();
@@ -690,7 +695,9 @@ message("All analyses complete. Session info and workspace saved.")</code></pre>
   }
 
   // Hook up events
-  document.getElementById('pw-form')?.addEventListener('submit', unlock);
-  document.getElementById('pw-submit')?.addEventListener('click', unlock);
+  const formEl = document.getElementById('pw-form');
+  const btnEl  = document.getElementById('pw-submit');
+  formEl && formEl.addEventListener('submit', unlock);
+  btnEl  && btnEl.addEventListener('click', unlock);
 </script>
 {% endraw %}
