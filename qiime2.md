@@ -1,6 +1,6 @@
 ---
 layout: default
-title: QIIME2 (Single-end) with DADA2 — Full Workflow
+title: QIIME2 (Single-end) with DADA2
 ---
 
 <style>
