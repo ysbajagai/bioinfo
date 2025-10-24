@@ -278,7 +278,31 @@ bar_plot_Phylum_Treatment <- t1_Phylum$plot_bar(
 ggsave("bar_plot_Phylum_Treatment.pdf", plot = bar_plot_Phylum_Treatment, device = "pdf")
 ggsave("bar_plot_Phylum_Treatment.png", plot = bar_plot_Phylum_Treatment, device = "png")</code></pre>
       </div>
+#Phylum - grouped
 
+t1_Phylum_group_Treatment <- trans_abund$new(
+  dataset   = dataset,
+  taxrank   = "Phylum",
+  ntaxa     = 20,
+  groupmean = TREATMENT_VAR
+)
+bar_plot_Phylum_group_Treatment <- t1_Phylum_group_Treatment$plot_bar(
+  color_values = paletteer::paletteer_d("ggthemes::Phylumic_20"),
+  bar_full     = TRUE,
+  others_color = "grey90",
+  strip_text   = 18,
+  legend_text_italic = FALSE,
+  xtext_angle  = 60,
+  xtext_size   = 16
+) + theme(
+  legend.title = element_text(size = 18, face = "bold"), 
+  legend.text  = element_text(size = 16), 
+  axis.text.y  = element_text(size = 18),
+  axis.text.x  = element_text(size = 20, face = "bold"),
+  axis.title.y = element_text(size = 20, face = "bold")
+)
+ggsave("bar_plot_Phylum_group_Treatment.pdf", plot = bar_plot_Phylum_group_Treatment, device = "pdf")
+ggsave("bar_plot_Phylum_group_Treatment.png", plot = bar_plot_Phylum_group_Treatment, device = "png")
       <h2>7️⃣ Bar plots — Class (per-sample)</h2>
       <div class="codewrap">
         <button class="copybtn" onclick="copyCode('barplot-class')">📋 Copy</button>
