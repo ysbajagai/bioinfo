@@ -95,7 +95,7 @@ conda activate "$QIIME_ENV"</code></pre>
       <button class="copybtn" onclick="copyCode('step-vars')">📋 Copy</button>
       <pre><code id="step-vars" class="language-bash">USERNAME="type your user name here"
 MANIFEST="/project/2025-sharma-cqu-bioinfo/training/manifest.txt"
-METADATA="/project/2025-sharma-cqu-bioinfo/training/sample-metadata.txt"
+METADATA="/project/2025-sharma-cqu-bioinfo/training/metadata.txt"
 ADAPTER_SEQ="AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT"
 # PRIMER_SEQ="GACTACNVGGGTATCTAATCC"    # example, if primer trimming is required later
 CLASSIFIER="/project/2025-sharma-cqu-bioinfo/training/silva-138-99-nb-classifier.qza"
@@ -103,8 +103,8 @@ THREADS=24
 MAX_DEPTH=3000
 
 # Define after checking quality plots (demux.qzv) before DADA2:
-TRIM_LEFT=21
-TRUNC_LEN=250
+TRIM_LEFT=22
+TRUNC_LEN=237
 MAX_EE=2.0
 
 # Workspace
