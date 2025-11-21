@@ -102,7 +102,7 @@ WORKDIR <- "XXXXXXX"
 METADATA_EXCEL <- "sample_metadata.xlsx"
 METADATA_SHEET <- "sample-metadata"  # The sheet name where metadata is stored
 ### Names of Qiime2 artifacts to import
-FEATURE_TABLE_QZA <- "table.qza"
+FEATURE_TABLE_QZA <- "table-2.qza"
 TAXONOMY_QZA      <- "taxonomy.qza"
 TREE_QZA          <- "rooted_tree.qza"
 ### Optional .RData output file name
